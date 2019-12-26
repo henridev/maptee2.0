@@ -4,7 +4,12 @@ $primary: #32c3ff;
 $ya_yellow: #feda6a;
 $silver_fox: #d4d4dc;
 $matte_grey: #393f4d;
-$dark_slate: #1d1e22; // ----------------------------------------
+$dark_slate: #1d1e22;
+
+$grassy_Green: #9bc400;
+$purplemajesty: #8076a3;
+$mountainpink: #f9c5bd;
+$stonepurple: #7c677f; // ----------------------------------------
 // To install Boostrap:
 // 1) Run in the client folder: $ npm i bootstrap
 // 2) Import bootstrap with the following line
@@ -19,12 +24,19 @@ $dark_slate: #1d1e22; // ----------------------------------------
 // --------------------
 // Style reusable for all components
 @import './styles/home.scss';
+@import './styles/login.scss';
 @import './styles/google_signin.scss';
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  color: white;
+  font-size: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  text-decoration: none;
 }
 
 .info {
@@ -61,7 +73,7 @@ body {
     a {
       color: white;
       padding: 0 5px;
-      text-decoration: unset;
+      text-decoration: none;
     }
 
     a.active {

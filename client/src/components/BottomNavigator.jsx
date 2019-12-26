@@ -19,9 +19,12 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     justifyContent: 'space-evenly',
-    backgroundColor: color.mountainpink,
+    boxShadow: '0 0 6px rgba(0,0,0,.12)',
     height: '100%',
     alignItems: 'center',
+  },
+  wrapper: {
+    color: color.ya_yellow,
   },
 })
 
@@ -45,23 +48,26 @@ export default function BottomNavigator(props) {
     >
       <NavLink to="/" exact>
         <BottomNavigationAction
+          className={classes.wrapper}
           label="home"
           icon={<HomeIcon />}
           showLabel={true}
         />
       </NavLink>
-      {!props.user && !api.isLoggedIn() && (
+      {props.user == null && !api.isLoggedIn() && (
         <NavLink to="/signup">
           <BottomNavigationAction
+            className={classes.wrapper}
             label="signup"
             icon={<CreateIcon />}
             showLabel={true}
           />
         </NavLink>
       )}
-      {!props.user && !api.isLoggedIn() && (
+      {!api.isLoggedIn() && (
         <NavLink to="/login">
           <BottomNavigationAction
+            className={classes.wrapper}
             label="login"
             icon={<AccountCircleIcon />}
             showLabel={true}
@@ -71,6 +77,7 @@ export default function BottomNavigator(props) {
       {api.isLoggedIn() && (
         <Link to="/" onClick={handleLogoutClick}>
           <BottomNavigationAction
+            className={classes.wrapper}
             label="logout"
             icon={<ExitToAppIcon />}
             showLabel={true}

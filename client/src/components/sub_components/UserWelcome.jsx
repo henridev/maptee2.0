@@ -4,9 +4,11 @@ import { store, startState } from '../../redux/_store'
 import { set_user } from '../../redux/_actions'
 
 export default function UserWelcome(props) {
+  const user = store.getState().user
+  console.log(user)
   return (
     <div className="Home">
-      <p>Hello there!</p>
+      <p>Hello there! {user.username}</p>
     </div>
   )
 }

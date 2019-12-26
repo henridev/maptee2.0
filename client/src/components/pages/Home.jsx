@@ -11,7 +11,7 @@ export default function Home(props) {
       try {
         api.google_signup().then(user => {
           console.log(user)
-          store.dispatch(set_user(user))
+          store.dispatch(set_user(user.user))
         })
       } catch (err) {
         console.error(err)
@@ -21,7 +21,9 @@ export default function Home(props) {
 
   return (
     <div className="Home">
-      <h2>Home</h2>
+      <div class="heading-bg">
+        <div>Home</div>
+      </div>
       <p>welcome to "App_name"</p>
       {user != null && <UserWelcome />}
     </div>

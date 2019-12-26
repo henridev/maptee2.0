@@ -36,8 +36,17 @@ export default {
 
   // This method signs up and logs in the user
   signup(userInfo) {
+    const formData = new FormData()
+    const userInfoKeys = Object.keys(userInfo)
+    userInfoKeys.forEach(key => {
+      formData.append(`${key}`, userInfo[`${key}`])
+    })
     return service
-      .post('/signup', userInfo)
+      .post('/signup', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       .then(res => {
         // If we have localStorage.getItem('user') saved, the application will consider we are loggedin
         localStorage.setItem('user', JSON.stringify(res.data))
@@ -68,6 +77,17 @@ export default {
   google_signup() {
     return service
       .get('/info')
+      .then(res => {
+        localStorage.setItem('user', JSON.stringify(res.data))
+        return res.data
+      })
+      .catch(errHandler)
+  },
+
+  facebookLogin(userprofile) {
+    console.log(userprofile)
+    return service
+      .post('/login-facebook', userprofile)
       .then(res => {
         localStorage.setItem('user', JSON.stringify(res.data))
         return res.data
