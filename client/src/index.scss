@@ -1,8 +1,10 @@
 // --------------------
 // Definition of variables
 $primary: #32c3ff;
-
-// ----------------------------------------
+$ya_yellow: #feda6a;
+$silver_fox: #d4d4dc;
+$matte_grey: #393f4d;
+$dark_slate: #1d1e22; // ----------------------------------------
 // To install Boostrap:
 // 1) Run in the client folder: $ npm i bootstrap
 // 2) Import bootstrap with the following line
@@ -14,9 +16,10 @@ $primary: #32c3ff;
 // import { Button } from 'reactstrap';
 // <Button color="danger">Danger!</Button>
 // ----------------------------------------
-
 // --------------------
 // Style reusable for all components
+@import './styles/home.scss';
+
 body {
   margin: 0;
   padding: 0;
@@ -38,13 +41,16 @@ body {
 
 // --------------------
 // Style for App component
+
+.App {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 9fr 1fr;
+}
+
 .App {
   text-align: center;
-
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-    height: 80px;
-  }
 
   .App-header {
     background-color: $primary;

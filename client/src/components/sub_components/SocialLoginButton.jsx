@@ -24,7 +24,7 @@ export default function SocialLoginButton(props) {
       <a
         className="btn-one login-btn"
         style={{ backgroundColor: '#3B5899', margin: 5 }}
-        title="login with facebook"
+        title="login with google"
         href={
           process.env.NODE_ENV === 'production'
             ? '/api/user/login-google'

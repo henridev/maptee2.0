@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import api from '../../apis/auth_api'
-import SocialLoginButton from '../buttons/SocialLoginButton'
+import SocialLoginButton from '../sub_components/SocialLoginButton'
 import GoogleIcon from '../../assets/images/google.png'
 
 import { useForm } from '../../hooks'

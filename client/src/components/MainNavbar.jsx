@@ -8,13 +8,10 @@ import { remove_user } from '../redux/_actions'
 
 function MainNavbar(props) {
   console.log(props.user, api.isLoggedIn(), 'here')
-  function handleLogoutClick(e) {
-    api.logout()
-    store.dispatch(remove_user())
-  }
+
   return (
     <nav className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
+      {/* <img src={logo} className="App-logo" alt="logo" />
       <h1 className="App-title">MERN Boilerplate</h1>
       <NavLink to="/" exact>
         Home
@@ -29,7 +26,7 @@ function MainNavbar(props) {
         <Link to="/" onClick={handleLogoutClick}>
           Logout
         </Link>
-      )}
+      )} */}
     </nav>
   )
 }
