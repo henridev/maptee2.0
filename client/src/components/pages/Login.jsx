@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import api from '../../apis/auth_api'
 import SocialLoginButton from '../sub_components/SocialLoginButton'
-import GoogleIcon from '../../assets/images/google.png'
 
 import { useForm } from '../../hooks'
 import { store, startState } from '../../redux/_store'
@@ -36,7 +35,7 @@ export default function Login(props) {
         <br />
         <button>Login</button>
       </form>
-      <SocialLoginButton icon={GoogleIcon} name="google" />
+      <SocialLoginButton name="google" />
       {message && <div className="info info-danger">{message}</div>}
     </div>
   )
