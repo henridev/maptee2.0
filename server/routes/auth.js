@@ -72,29 +72,22 @@ router.get(
   (req, res, next) => {
     req.logIn(req.user, () => {
       req.user.password = undefined
-      res.redirect(`${process.env.CLIENT_URL}/users/${req.user._id}`)
+      res.redirect(`${process.env.CLIENT_URL}`)
     })
   }
 )
 
-console.log('here')
-router.get('/login-facebook', passport.authenticate('facebook'))
-// when we setup facebookstrategy it gets attached to the
-//passport object
-router.get(
-  '/login-facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/' }),
-  (req, res, next) => {
-    // process.env.NODE_ENV === 'production'
-    //   ? '/api'
-    //   : `http://${window.location.hostname}:5000/api`,
-    res.redirect(`${process.env.CLIENT_URL}/users/${req.user._id}`)
+router.get('/info', (req, res) => {
+  if (req.user) {
+    res.json({ user: req.user })
   }
-)
+})
 
 router.get('/logout', (req, res) => {
   req.logout()
   res.json({ message: 'You are out!' })
 })
+
+router.get('/return-google-user', (req, res) => {})
 
 module.exports = router

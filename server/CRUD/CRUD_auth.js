@@ -28,10 +28,25 @@ const findUserBy = async (searchquery, searchterm) => {
     if (searchquery === 'facebook_id') {
       foundUser = await User.findOne({ facebook_id: searchterm })
     }
+    if (searchquery === 'email') {
+      foundUser = await User.findOne({ email: searchterm })
+    }
     return foundUser !== null ? foundUser : false
   } catch (err) {
     console.log(err, 'error during user lookup')
   }
+}
+
+const createGoogleUser = async profile => {
+  const newUser = await new User({
+    username: profile.displayName,
+    google_id: profile.id,
+    firstName: profile.name.givenName,
+    lastName: profile.name.familyName,
+    email: profile.email,
+  }).save()
+  console.log('new google user created', newUser)
+  return newUser
 }
 
 const checkUsernamePassword = async (username, password) => {
