@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import api from '../../apis/auth_api'
-import SocialLoginButton from '../sub_components/SocialLoginButton'
+import GoogleSignIn from '../sub_components/GoogleSignIn'
 
 import { useForm } from '../../hooks'
 import { store, startState } from '../../redux/_store'
@@ -35,7 +35,7 @@ export default function Login(props) {
         <br />
         <button>Login</button>
       </form>
-      <SocialLoginButton name="google" />
+      <GoogleSignIn />
       {message && <div className="info info-danger">{message}</div>}
     </div>
   )
