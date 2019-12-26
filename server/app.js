@@ -14,6 +14,7 @@ const MongoStore = require('connect-mongo')(session)
 require('./configs/database')
 
 const app_name = require('./package.json').name
+
 const debug = require('debug')(
   `${app_name}:${path.basename(__filename).split('.')[0]}`
 )
@@ -22,7 +23,7 @@ const app = express()
 
 app.use(nocache())
 
-// Set "Access-Control-Allow-Origin" header
+// CORS  headers
 app.use(
   cors({
     origin: (origin, cb) => {
@@ -44,7 +45,7 @@ app.use(express.static(path.join(__dirname, '../client/build')))
 // Enable authentication using session + passport
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'irongenerator',
+    secret: process.env.SESSION_SECRET || 'secret',
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
@@ -52,18 +53,18 @@ app.use(
 )
 require('./passport')(app)
 
-app.use('/api', require('./routes/index'))
 app.use('/api', require('./routes/auth'))
-app.use('/api/countries', require('./routes/countries'))
+app.use('/api', require('./routes/meetups'))
 
-// For any routes that starts with "/api", catch 404 and forward to error handler
+// create an error if we have an api route that does not
+// seem to find an route
 app.use('/api/*', (req, res, next) => {
   let err = new Error('Not Found')
   err.status = 404
   next(err)
 })
 
-// For any other routes, redirect to the index.html file of React
+// we can send our entry html file in any other case
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
