@@ -49,6 +49,20 @@ const createGoogleUser = async profile => {
   return newUser
 }
 
+const createFacebookUser = async profile => {
+  console.log('picture url', profile.pictureUrl)
+  const newUser = await new User({
+    username: profile.name,
+    facebook_id: profile.id,
+    firstName: profile.name.substr(0, profile.name.indexOf(' ')),
+    lastName: profile.name.substr(profile.name.indexOf(' ') + 1),
+    email: profile.email,
+    avatar_url: profile.pictureUrl,
+  }).save()
+  console.log('new facebook user created', newUser)
+  return newUser
+}
+
 const checkUsernamePassword = async (username, password) => {
   try {
     const foundUser = await findUserBy('username', username)
@@ -67,3 +81,5 @@ const checkUsernamePassword = async (username, password) => {
 module.exports.findUserBy = findUserBy
 module.exports.createUser = createUser
 module.exports.checkUsernamePassword = checkUsernamePassword
+module.exports.createFacebookUser = createFacebookUser
+module.exports.createGoogleUser = createGoogleUser

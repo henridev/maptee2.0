@@ -77,6 +77,17 @@ router.get(
   }
 )
 
+router.post(
+  '/login-facebook',
+  passport.authenticate('custom'),
+  (req, res, next) => {
+    req.logIn(req.user, () => {
+      req.user.password = undefined
+      res.json({ user: req.user })
+    })
+  }
+)
+
 router.get('/info', (req, res) => {
   if (req.user) {
     res.json({ user: req.user })
