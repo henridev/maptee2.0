@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
-import api from '../../api'
+import api from '../../apis/auth_api'
+import SocialLoginButton from '../buttons/SocialLoginButton'
+import GoogleIcon from '../../assets/images/google.png'
+
 import { useForm } from '../../hooks'
+import { store, startState } from '../../redux/_store'
+import { set_user } from '../../redux/_actions'
 
 export default function Login(props) {
   const { formValues, getInputProps } = useForm({
@@ -12,8 +17,9 @@ export default function Login(props) {
     e.preventDefault()
     api
       .login(formValues.username, formValues.password)
-      .then(result => {
+      .then(user => {
         console.log('SUCCESS!')
+        store.dispatch(set_user(user))
         props.history.push('/') // Redirect to the home page
       })
       .catch(err => setMessage(err.toString()))
@@ -30,6 +36,7 @@ export default function Login(props) {
         <br />
         <button>Login</button>
       </form>
+      <SocialLoginButton icon={GoogleIcon} name="google" />
       {message && <div className="info info-danger">{message}</div>}
     </div>
   )

@@ -5,9 +5,8 @@ console.log(process.env.NODE_ENV)
 const service = axios.create({
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? '/api'
-      : `http://${window.location.hostname}:5000/api`,
-
+      ? '/api/user'
+      : `http://${window.location.hostname}:5000/api/user`,
   withCredentials: true,
 })
 
@@ -66,26 +65,13 @@ export default {
     return service.get('/logout')
   },
 
-  // This is an example on how to use this method in a different file
-  // api.getCountries().then(countries => { /* ... */ })
-  getCountries() {
+  google_signup() {
     return service
-      .get('/countries')
-      .then(res => res.data)
-      .catch(errHandler)
-  },
-
-  addCountry(body) {
-    return service
-      .post('/countries', body)
-      .then(res => res.data)
-      .catch(errHandler)
-  },
-
-  getSecret() {
-    return service
-      .get('/secret')
-      .then(res => res.data)
+      .get('/info')
+      .then(res => {
+        localStorage.setItem('user', JSON.stringify(res.data))
+        return res.data
+      })
       .catch(errHandler)
   },
 

@@ -1,12 +1,16 @@
-import React from 'react'
-import api from '../api'
+import React, { useEffect } from 'react'
+import api from '../apis/auth_api'
 import logo from '../logo.svg'
 import { Link, NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import { store, startState } from '../redux/_store'
+import { remove_user } from '../redux/_actions'
 
 function MainNavbar(props) {
+  console.log(props.user, api.isLoggedIn(), 'here')
   function handleLogoutClick(e) {
     api.logout()
+    store.dispatch(remove_user())
   }
   return (
     <nav className="App-header">
@@ -17,14 +21,15 @@ function MainNavbar(props) {
       </NavLink>
       <NavLink to="/countries">Countries</NavLink>
       <NavLink to="/add-country">Add country</NavLink>
-      {!api.isLoggedIn() && <NavLink to="/signup">Signup</NavLink>}
-      {!api.isLoggedIn() && <NavLink to="/login">Login</NavLink>}
+      {!props.user && !api.isLoggedIn() && (
+        <NavLink to="/signup">Signup</NavLink>
+      )}
+      {!props.user && !api.isLoggedIn() && <NavLink to="/login">Login</NavLink>}
       {api.isLoggedIn() && (
         <Link to="/" onClick={handleLogoutClick}>
           Logout
         </Link>
       )}
-      <NavLink to="/secret">Secret</NavLink>
     </nav>
   )
 }
