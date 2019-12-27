@@ -35,7 +35,7 @@ export default function GoogleSignIn(props) {
           </g>
         </svg>
       </div>
-      <span className="google_text">Sign in with Google</span>
+      <span className="google_text">Login with Google</span>
     </a>
   )
 }

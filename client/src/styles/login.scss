@@ -23,6 +23,20 @@
   grid-area: title;
   color: $ya_yellow;
   align-self: end;
+  // -webkit-text-stroke: 1px black;
+  text-shadow: 1px 1px $stonepurple;
+}
+
+.title h2 {
+  font-size: 3rem;
+  text-transform: lowercase;
+}
+
+.title p {
+  font-size: 1.5rem;
+  color: $stonepurple;
+  text-shadow: 1px 1px white;
+  text-transform: lowercase;
 }
 
 .Login input,
@@ -38,4 +52,50 @@
   padding: 2px;
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.login_wrapper h2 {
+  color: $purplemajesty;
+}
+
+.login_wrapper form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login_wrapper form > * {
+  margin: 4px;
+}
+
+.facebook-button {
+  margin-top: 5%;
+  color: #fff;
+  background-color: #3b5998;
+  border-color: transparent;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.1s;
+  padding: 10px 28px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+}
+
+#bootstrap-overrides .btn-primary {
+  background-color: $ya_yellow;
+}
+
+.social_wrapper > * {
+  width: 100%;
+}
+
+.social_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup_message {
+  color: $purplemajesty;
+  margin-top: 3%;
 }

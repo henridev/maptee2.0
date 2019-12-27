@@ -5,6 +5,7 @@ import FacebookLoginButton from 'react-facebook-login'
 import { useForm } from '../../hooks'
 import { store, startState } from '../../redux/_store'
 import { set_user } from '../../redux/_actions'
+import { Link, NavLink } from 'react-router-dom'
 import ReactDOM from 'react-dom'
 
 export default function Login(props) {
@@ -52,23 +53,28 @@ export default function Login(props) {
             {...getInputProps('username')}
             placeholder="username"
           />{' '}
-          <br />
           <input
             type="password"
             {...getInputProps('password')}
             placeholder="password"
           />
-          <br />
-          <button>Login</button>
+          <button className="btn btn-warning btn-block ng-scope">Login</button>
         </form>
-        <GoogleSignIn />
-        <FacebookLoginButton
-          appId="750494372119711"
-          // autoLoad={true}
-          fields="name,email,picture"
-          onClick={() => {}}
-          callback={responseFacebook}
-        />
+        <h2>or</h2>
+        <div className="social_wrapper">
+          <GoogleSignIn />
+          <FacebookLoginButton
+            appId="750494372119711"
+            // autoLoad={true}
+            fields="name,email,picture"
+            onClick={() => {}}
+            callback={responseFacebook}
+            cssClass="facebook-button"
+          />
+        </div>
+        <span class="signup_message">
+          Not on Mapt? <Link to="/signup">sign up</Link>
+        </span>
       </div>
       {message && <div className="info info-danger">{message}</div>}
     </div>

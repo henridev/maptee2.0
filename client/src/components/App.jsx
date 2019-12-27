@@ -17,7 +17,7 @@ export default function App() {
     return unsubscribe
   }, [])
   return (
-    <div className="App">
+    <div className="App" id="bootstrap-overrides">
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/signup" component={Signup} />

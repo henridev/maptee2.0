@@ -10,10 +10,8 @@ $grassy_Green: #9bc400;
 $purplemajesty: #8076a3;
 $mountainpink: #f9c5bd;
 $stonepurple: #7c677f; // ----------------------------------------
-// To install Boostrap:
-// 1) Run in the client folder: $ npm i bootstrap
-// 2) Import bootstrap with the following line
-// @import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
 //
 // To install Reactstrap:
 // 1) Run in the client folder: $ npm i reactstrap
@@ -25,6 +23,7 @@ $stonepurple: #7c677f; // ----------------------------------------
 // Style reusable for all components
 @import './styles/home.scss';
 @import './styles/login.scss';
+@import './styles/signup.scss';
 @import './styles/google_signin.scss';
 
 body {

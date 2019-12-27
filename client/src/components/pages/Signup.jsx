@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import api from '../../apis/auth_api'
 import { store, startState } from '../../redux/_store'
 import { set_user } from '../../redux/_actions'
+import DragDropFile from '../sub_components/DragDropFile'
 
 export default function Signup(props) {
   const [state, setState] = useState({
@@ -14,9 +15,14 @@ export default function Signup(props) {
     message: null,
   })
 
-  function handleFileChange(event) {
-    console.log('the file added by the user is: ', event.target.files[0])
-    setState({ ...state, avatar: event.target.files[0] })
+  function handleFileChange_btn(e) {
+    console.log('the file added by the user is: ', e.target.files[0])
+    setState({ ...state, avatar: e.target.files[0] })
+  }
+
+  function handleFileChange(file) {
+    console.log('the file added by the user is: ', file)
+    setState({ ...state, avatar: file })
   }
 
   function handleInputChange(event) {
@@ -45,60 +51,72 @@ export default function Signup(props) {
       })
       .catch(err => setState({ message: err.toString() }))
   }
+
   return (
     <div className="Signup">
-      <h2>Signup</h2>
-      <form>
-        <input
-          placeholder="username"
-          type="text"
-          value={state.username}
-          name="username"
-          onChange={handleInputChange}
-        />
-        <br />
-        <input
-          placeholder="email"
-          type="text"
-          value={state.email}
-          name="email"
-          onChange={handleInputChange}
-        />
-        <br />
-        <input
-          placeholder="firstname"
-          type="text"
-          value={state.firstName}
-          name="firstName"
-          onChange={handleInputChange}
-        />
-        <br />
-        <input
-          placeholder="lastname"
-          type="text"
-          value={state.lastName}
-          name="lastName"
-          onChange={handleInputChange}
-        />
-        <br />
-        <input
-          placeholder="password"
-          type="password"
-          value={state.password}
-          name="password"
-          onChange={handleInputChange}
-        />
-        <br />
-        <input
-          type="file"
-          // value={state.file}
-          name="avatar"
-          onChange={handleFileChange}
-          className="inputs-edit-file"
-        />
-        <br />
-        <button onClick={e => handleClick(e)}>Signup</button>
-      </form>
+      <div className="signup_container">
+        <h2>Discover eachother</h2>
+        <form className="signup_form">
+          <div className="name_wrapper">
+            <input
+              placeholder="firstname"
+              type="text"
+              value={state.firstName}
+              name="firstName"
+              onChange={handleInputChange}
+            />
+            <input
+              placeholder="lastname"
+              type="text"
+              value={state.lastName}
+              name="lastName"
+              onChange={handleInputChange}
+            />
+          </div>
+          <input
+            placeholder="username"
+            type="text"
+            value={state.username}
+            name="username"
+            onChange={handleInputChange}
+          />
+
+          <input
+            placeholder="email"
+            type="text"
+            value={state.email}
+            name="email"
+            onChange={handleInputChange}
+          />
+
+          <input
+            placeholder="password"
+            type="password"
+            value={state.password}
+            name="password"
+            onChange={handleInputChange}
+          />
+
+          <DragDropFile handleFileChange={handleFileChange}>
+            <input
+              type="file"
+              // value={state.file}
+              name="file"
+              id="file"
+              onChange={handleFileChange_btn}
+              className="inputs-edit-file"
+            />
+            <label for="file">drop an avatar</label>
+          </DragDropFile>
+          <button
+            className="btn btn-warning btn-block ng-scope"
+            onClick={e => handleClick(e)}
+          >
+            Signup
+          </button>
+        </form>
+      </div>
+
       {state.message && <div className="info info-danger">{state.message}</div>}
     </div>
   )
