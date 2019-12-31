@@ -5,9 +5,9 @@ import Map from '../sub_components/Map'
 export default function UserWelcome(props) {
   return (
     <div>
-      <UserHomeNavigator user={props.user} />
-      <Map />
-      <UserHomeNavigator />
+      <UserHomeNavigator>
+        <Map />
+      </UserHomeNavigator>
     </div>
   )
 }

@@ -23,6 +23,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { store, startState } from '../../redux/_store'
 import { set_user } from '../../redux/_actions'
+import api from '../../apis/auth_api'
 
 const drawerWidth = 240
 
@@ -84,15 +85,15 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
+    height: '100vh',
   },
 }))
 
 export default function UserWelcome(props) {
-  const [user, setUser] = useState(store.getState().user)
+  const [user, setUser] = useState(api.getLocalStorageUser().user)
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
-
   const handleDrawerOpen = () => {
     setOpen(true)
   }
