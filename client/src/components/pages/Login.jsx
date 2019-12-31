@@ -16,7 +16,7 @@ export default function Login(props) {
       .then(user => {
         console.log('SUCCESS!')
         store.dispatch(set_user(user.user))
-        props.history.push('/')
+        props.history.push('/userhome')
       })
       .catch(err => console.error(err))
   }

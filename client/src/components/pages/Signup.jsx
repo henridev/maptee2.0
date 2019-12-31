@@ -47,7 +47,7 @@ export default function Signup(props) {
       .then(user => {
         console.log('SUCCESS!')
         store.dispatch(set_user(user))
-        props.history.push('/') // Redirect to the home page
+        props.history.push('/userhome') // Redirect to the home page
       })
       .catch(err => setState({ message: err.toString() }))
   }

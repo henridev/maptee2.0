@@ -16,9 +16,9 @@ export const set_user = user_json => {
 
 // reference by index is smarter we don't have to send
 // huge data sets
-export const remove_user = () => {
+export const remove_user = user => {
   return {
     type: REMOVE_USER,
-    user: null,
+    user: user,
   }
 }

@@ -10,3 +10,49 @@
   height: 480px;
   background: -webkit-linear-gradient(left, $ya_yellow, #ffc222);
 }
+
+.landing_wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: -webkit-linear-gradient(left, #ffa222, #ffc222);
+}
+
+.landing_wrapper .description_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  margin-left: 8%;
+  width: 50%;
+}
+
+.landing_wrapper h1 {
+  text-shadow: 1px 1px $stonepurple;
+  font-weight: bold;
+}
+
+.landing_wrapper button {
+  font-weight: bold;
+}
+
+.landing_wrapper .logo_containter img {
+  width: 50%;
+  -webkit-filter: contrast(180%);
+  filter: contrast(180%);
+}
+
+.landing_wrapper .button_wrapper {
+  width: inherit;
+}
+
+.landing_wrapper .button_wrapper {
+  width: inherit;
+}
+
+#login_btn {
+  margin-left: 2%;
+}

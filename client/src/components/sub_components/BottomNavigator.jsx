@@ -10,10 +10,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { Link, NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import color from '../assets/colors/colors.js'
-import { store, startState } from '../redux/_store'
-import api from '../apis/auth_api'
-import { remove_user } from '../redux/_actions'
+import color from '../../assets/colors/colors.js'
+import { store, startState } from '../../redux/_store'
+import api from '../../apis/auth_api'
+import { remove_user } from '../../redux/_actions'
 
 const useStyles = makeStyles({
   root: {
@@ -34,7 +34,7 @@ export default function BottomNavigator(props) {
 
   function handleLogoutClick(e) {
     api.logout()
-    store.dispatch(remove_user())
+    store.dispatch(remove_user(undefined))
   }
 
   return (
@@ -54,7 +54,7 @@ export default function BottomNavigator(props) {
           showLabel={true}
         />
       </NavLink>
-      {props.user == null && !api.isLoggedIn() && (
+      {!api.isLoggedIn() && (
         <NavLink to="/signup">
           <BottomNavigationAction
             className={classes.wrapper}
@@ -73,6 +73,16 @@ export default function BottomNavigator(props) {
             showLabel={true}
           />
         </NavLink>
+      )}
+      {api.isLoggedIn() && (
+        <Link to="/profile" onClick={handleLogoutClick}>
+          <BottomNavigationAction
+            className={classes.wrapper}
+            label="my profile"
+            icon={<AccountCircleIcon />}
+            showLabel={true}
+          />
+        </Link>
       )}
       {api.isLoggedIn() && (
         <Link to="/" onClick={handleLogoutClick}>
