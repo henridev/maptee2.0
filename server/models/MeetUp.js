@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const MeetUp = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -36,6 +36,4 @@ const MeetUp = new mongoose.Schema(
   }
 )
 
-const MeetUp = mongoose.model('MeetUp', MeetUpSchema)
-
-module.exports = MeetUp
+module.exports = mongoose.model('MeetUp', schema)

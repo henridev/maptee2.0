@@ -5,6 +5,7 @@ import Landing from './pages/LandingPage'
 import UserHome from './pages/UserHome'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import MyComponent from './maps/Map'
 import { store, startState } from '../redux/_store'
 import { set_user } from '../redux/_actions'
 import api from '../apis/auth_api'
@@ -25,6 +26,7 @@ export default function App(props) {
         <Route path="/userhome" exact component={UserHome} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
+        <Route path="/test" component={MyComponent}></Route>
         <Route render={() => <h2>404</h2>} />
       </Switch>
       {!user && <BottomNavigator user={user} />}

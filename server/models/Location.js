@@ -26,6 +26,7 @@ const Location = new Schema(
     },
     _votes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     _creator: { type: mongoose.SchemaType.Types.ObjectId, ref: 'User' },
+    isDeparture: { type: Boolean },
   },
   {
     timestamps: {
