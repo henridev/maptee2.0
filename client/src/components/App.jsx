@@ -7,25 +7,18 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import MyComponent from './maps/Map'
 import { store, startState } from '../redux/_store'
-import { set_user } from '../redux/_actions'
+import { set_user, set_meetups } from '../redux/_actions'
 import api from '../apis/auth_api'
 
 export default function App(props) {
   const [user, setUser] = useState(
     api.getLocalStorageUser() != null ? api.getLocalStorageUser().user : null
   )
-  useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
-      setUser(store.getState().user)
-      console.log(store.getState().user, 'new state')
-    })
-    return unsubscribe
-  }, [])
   return (
     <div className="App" id="bootstrap-overrides">
       <Switch>
         <Route path="/" exact component={Landing} />
-        <Route path="/userhome" exact component={UserHome} />
+        <Route path="/userhome" component={UserHome} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/test" component={MyComponent}></Route>

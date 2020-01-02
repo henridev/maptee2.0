@@ -22,7 +22,7 @@ import EditLocationIcon from '@material-ui/icons/EditLocation'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { store, startState } from '../../redux/_store'
-import { set_user } from '../../redux/_actions'
+import { remove_user } from '../../redux/_actions'
 import api from '../../apis/auth_api'
 
 const drawerWidth = 240
@@ -89,7 +89,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function UserWelcome(props) {
+export default function UserHomeNavigator(props) {
   const [user, setUser] = useState(api.getLocalStorageUser().user)
   const classes = useStyles()
   const theme = useTheme()
@@ -100,6 +100,12 @@ export default function UserWelcome(props) {
 
   const handleDrawerClose = () => {
     setOpen(false)
+  }
+
+  const handleLogout = () => {
+    api.logout()
+    store.dispatch(remove_user(null))
+    props.history.push('/')
   }
 
   return (
@@ -180,11 +186,7 @@ export default function UserWelcome(props) {
                 {index % 2 === 0 ? (
                   <AccountCircleIcon />
                 ) : (
-                  <ExitToAppIcon
-                    onClick={() => {
-                      api.logout()
-                    }}
-                  />
+                  <ExitToAppIcon onClick={handleLogout} />
                 )}
               </ListItemIcon>
               <ListItemText primary={text} />
