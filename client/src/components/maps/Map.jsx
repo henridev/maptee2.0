@@ -12,6 +12,7 @@ export default function MapComponent(props) {
   const GOOGLE_MAP_API_KEY = 'AIzaSyC4eD0NjYalr1zMt-mbfb7nEPiC39-xAOo'
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
+    libraries: ['places'],
   })
 
   const onMapLoad = map => {

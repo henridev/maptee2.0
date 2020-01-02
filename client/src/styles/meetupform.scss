@@ -1,0 +1,23 @@
+.meetup_form_wrapper {
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  top: 20%;
+  padding: 2px;
+  background-color: #fbf2e7;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+.meetup_form div > * {
+  margin: 1%;
+}
+
+.meetup_form_wrapper h2 {
+  margin-top: 20px;
+  color: $purplemajesty;
+}

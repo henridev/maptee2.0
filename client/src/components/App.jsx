@@ -11,7 +11,9 @@ import { set_user } from '../redux/_actions'
 import api from '../apis/auth_api'
 
 export default function App(props) {
-  const [user, setUser] = useState(api.getLocalStorageUser().user)
+  const [user, setUser] = useState(
+    api.getLocalStorageUser() != null ? api.getLocalStorageUser().user : null
+  )
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       setUser(store.getState().user)

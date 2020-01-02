@@ -13,6 +13,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .Login > * {
@@ -48,12 +52,6 @@
   font-weight: 500;
 }
 
-.login_wrapper {
-  padding: 2px;
-  background-color: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
 .login_wrapper h2 {
   color: $purplemajesty;
 }

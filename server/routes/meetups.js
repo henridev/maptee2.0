@@ -7,29 +7,36 @@ router.post('/meetup', isLoggedIn, (req, res, next) => {
   const _admin = req.user._id
   const _users = req.user._id
   const meetup_date = req.body.meetup_date
-  const meetup_time = req.body.meetup_time
   const name = req.body.name
+  const description = req.body.description
+  const locationInfo = req.body._departure_locations
+  const locationInfolat = req.body._departure_locations.lat
+  const locationInfolng = req.body._departure_locations.lng
   // should be either
   // current or searched location
   meetup_crud
-    .createLocation({
-      isDepature: true,
-      info: req.body.departure_location,
-    })
+    .createLocation(
+      true,
+      locationInfo,
+      locationInfolat,
+      locationInfolng,
+      _users
+    )
     .then(newLocation => {
       const departureId = newLocation._id
-      return meetup_crud.createMeetUp(
+      return meetup_crud.createMeetup(
         _admin,
-        _users,
         meetup_date,
-        meetup_time,
         name,
+        description,
         departureId
       )
     })
     .then(newMeetUp => {
-      console.log('new meetup created hooray!', NewMeetUp)
-      res.json(NewMeetUp)
+      res.json(newMeetUp)
+    })
+    .catch(err => {
+      console.error(err)
     })
 })
 

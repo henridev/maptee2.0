@@ -157,7 +157,13 @@ export default function UserWelcome(props) {
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index === 0 ? <MapIcon /> : null}
-                  {index === 1 ? <EditLocationIcon /> : null}
+                  {index === 1 ? (
+                    <EditLocationIcon
+                      onClick={() => {
+                        props.setshowMeetupForm(!props.showMeetupForm)
+                      }}
+                    />
+                  ) : null}
                   {index === 2 ? <PeopleIcon /> : null}
                   {index === 3 ? <ChatIcon /> : null}
                 </ListItemIcon>
@@ -171,7 +177,15 @@ export default function UserWelcome(props) {
           {['my profile', 'logout'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <AccountCircleIcon /> : <ExitToAppIcon />}
+                {index % 2 === 0 ? (
+                  <AccountCircleIcon />
+                ) : (
+                  <ExitToAppIcon
+                    onClick={() => {
+                      api.logout()
+                    }}
+                  />
+                )}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

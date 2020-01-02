@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import UserHomeNavigator from '../sub_components/UserHomeNavigator'
 import Map from '../maps/Map'
-import { LoadScript } from '@react-google-maps/api'
-import { getCurrentLocation } from '../../utils/GeoFunctions'
+import MeetupForm from '../sub_components/MeetupForm'
 
 export default function UserWelcome(props) {
-  const [currentLocation, setCurrentLocation] = useState(null)
+  const [showMeetupForm, setshowMeetupForm] = useState(false)
   const [state, setState] = useState({
     oldDeparture: null,
     oldSuggestion: null,
@@ -13,12 +12,14 @@ export default function UserWelcome(props) {
     departure: null,
   })
 
-  getCurrentLocation(setCurrentLocation)
-
   return (
     <div>
-      <UserHomeNavigator>
-        <Map currentLocation={currentLocation} />
+      {showMeetupForm && <MeetupForm />}
+      <UserHomeNavigator
+        setshowMeetupForm={setshowMeetupForm}
+        showMeetupForm={showMeetupForm}
+      >
+        <Map />
       </UserHomeNavigator>
     </div>
   )

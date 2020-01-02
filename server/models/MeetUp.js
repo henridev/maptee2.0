@@ -10,7 +10,6 @@ const schema = new mongoose.Schema(
       type: String,
     },
     meetup_date: { type: Date, required: true },
-    meetup_time: { type: Date, required: true },
     _creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -21,6 +20,10 @@ const schema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    _admin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
     _suggested_locations: [
       { type: mongoose.Schema.Types.ObjectId, ref: 'Location' },
     ],
