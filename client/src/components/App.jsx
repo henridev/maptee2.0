@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import BottomNavigator from './sub_components/BottomNavigator'
+
 import Landing from './pages/LandingPage'
 import UserHome from './pages/UserHome'
 import Login from './pages/Login'
@@ -11,9 +11,7 @@ import { set_user, set_meetups } from '../redux/_actions'
 import api from '../apis/auth_api'
 
 export default function App(props) {
-  const [user, setUser] = useState(
-    api.getLocalStorageUser() != null ? api.getLocalStorageUser().user : null
-  )
+  console.log(store.getState().user)
   return (
     <div className="App" id="bootstrap-overrides">
       <Switch>
@@ -24,7 +22,6 @@ export default function App(props) {
         <Route path="/test" component={MyComponent}></Route>
         <Route render={() => <h2>404</h2>} />
       </Switch>
-      {!user && <BottomNavigator user={user} />}
     </div>
   )
 }

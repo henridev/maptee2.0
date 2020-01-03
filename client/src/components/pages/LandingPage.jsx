@@ -4,9 +4,12 @@ import { store, startState } from '../../redux/_store'
 import { set_user } from '../../redux/_actions'
 import Logo from '../../assets/images/temp_logo.png'
 import { Link } from 'react-router-dom'
+import BottomNavigator from '../sub_components/BottomNavigator'
 
 export default function LandingPage(props) {
-  const user = props.user
+  const [user, setUser] = useState(
+    api.getLocalStorageUser() != null ? api.getLocalStorageUser().user : null
+  )
   console.log(user)
   useEffect(() => {
     if (!api.isLoggedIn()) {
@@ -48,6 +51,7 @@ export default function LandingPage(props) {
           <img src={Logo} />
         </div>
       </div>
+      <BottomNavigator user={user} />
     </div>
   )
 }

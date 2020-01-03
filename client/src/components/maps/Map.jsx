@@ -6,7 +6,7 @@ import {
   useGoogleMap,
   Marker,
 } from '@react-google-maps/api'
-import Markers from './Markers'
+import MeetupMarkers from './MeetupMarkers'
 export default function MapComponent(props) {
   const [position, setPosition] = useState({ lat: 0, lng: 0 })
   const GOOGLE_MAP_API_KEY = 'AIzaSyC4eD0NjYalr1zMt-mbfb7nEPiC39-xAOo'
@@ -47,7 +47,7 @@ export default function MapComponent(props) {
       onLoad={onMapLoad}
       onClick={onClick}
     >
-      <Markers />
+      <MeetupMarkers />
     </GoogleMap>
   ) : null
 }

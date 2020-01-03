@@ -57,9 +57,6 @@ a {
 
 .App {
   height: 100vh;
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: 1fr minmax(min-content, max-content);
 }
 
 .App {

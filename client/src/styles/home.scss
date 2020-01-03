@@ -1,5 +1,8 @@
-.home {
-  // grid-area: home;
+.Home {
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr minmax(min-content, max-content);
 }
 
 #bottom_navigator {
