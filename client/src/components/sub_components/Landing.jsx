@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Logo from '../../assets/images/temp_logo.png'
 import { Link } from 'react-router-dom'
-import BottomNavigator from './BottomNavigator'
-import { store, startState } from '../../redux/_store'
-import { set_user, set_meetups } from '../../redux/_actions'
 
 export default function Landing(props) {
-  const [user, setUser] = useState(
-    api.getLocalStorageUser() != null ? api.getLocalStorageUser().user : null
-  )
   return (
     <div className="landing_wrapper">
       <div className="description_container">
@@ -34,7 +28,6 @@ export default function Landing(props) {
       <div className="logo_containter">
         <img src={Logo} />
       </div>
-      <BottomNavigator user={user} />
     </div>
   )
 }

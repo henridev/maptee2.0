@@ -16,6 +16,7 @@ const schema = new Schema(
     facebook_id: { type: String },
     google_id: { type: String },
     _friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    _meetups: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MeetUp' }],
   },
   {
     timestamps: {

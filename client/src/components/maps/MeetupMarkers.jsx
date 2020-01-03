@@ -9,30 +9,6 @@ export default function MeetupMarkers({ positions }) {
     departure._location.coordinates[0] + accumulator
   const sumLng = (accumulator, departure) =>
     departure._location.coordinates[1] + accumulator
-  const renderMarker = clusterer => {
-    return meetups.map((meetup, i) => {
-      const lat_avg_sum =
-        meetup._departure_locations.reduce(sumLat, 0) /
-        meetup._departure_locations.length
-      const lng_avg_sum =
-        meetup._departure_locations.reduce(sumLng, 0) /
-        meetup._departure_locations.length
-      const lat = meetup._departure_locations[0]._location.coordinates[0]
-      const lng = meetup._departure_locations[0]._location.coordinates[1]
-
-      console.log(lat_avg_sum, lat)
-      return (
-        <Marker
-          key={i}
-          position={{
-            lat: lat_avg_sum,
-            lng: lng_avg_sum,
-          }}
-          clusterer={clusterer}
-        />
-      )
-    })
-  }
 
   const options = {
     imagePath:

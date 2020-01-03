@@ -31,6 +31,13 @@ const findUserBy = async (searchquery, searchterm) => {
     if (searchquery === 'email') {
       foundUser = await User.findOne({ email: searchterm })
     }
+    foundUser = await User.populate(foundUser, {
+      path: '_meetups',
+      populate: [
+        { path: '_departure_locations', model: 'Location' },
+        { path: '_suggested_locations', model: 'Location' },
+      ],
+    })
     return foundUser !== null ? foundUser : false
   } catch (err) {
     console.log(err, 'error during user lookup')
