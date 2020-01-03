@@ -7,9 +7,14 @@ import {
   Marker,
 } from '@react-google-maps/api'
 import MeetupMarkers from './MeetupMarkers'
-export default function MapComponent(props) {
+import Polygons from './Polygon'
+import { store } from '../../redux/_store'
+import { set_meetups } from '../../redux/_actions'
+
+const GOOGLE_MAP_API_KEY = 'AIzaSyC4eD0NjYalr1zMt-mbfb7nEPiC39-xAOo'
+export default function OverviewMap(props) {
   const [position, setPosition] = useState({ lat: 0, lng: 0 })
-  const GOOGLE_MAP_API_KEY = 'AIzaSyC4eD0NjYalr1zMt-mbfb7nEPiC39-xAOo'
+  const [meetups, setmeetups] = useState(null)
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
     libraries: ['places'],
@@ -18,6 +23,7 @@ export default function MapComponent(props) {
   const onMapLoad = map => {
     console.log(map)
   }
+
   const onClick = (...args) => {
     console.log(
       'onClick args: ',
@@ -47,7 +53,7 @@ export default function MapComponent(props) {
       onLoad={onMapLoad}
       onClick={onClick}
     >
-      <MeetupMarkers />
+      <MeetupMarkers setmeetups={setmeetups} />
     </GoogleMap>
   ) : null
 }

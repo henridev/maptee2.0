@@ -34,8 +34,22 @@ const findUserBy = async (searchquery, searchterm) => {
     foundUser = await User.populate(foundUser, {
       path: '_meetups',
       populate: [
-        { path: '_departure_locations', model: 'Location' },
-        { path: '_suggested_locations', model: 'Location' },
+        {
+          path: '_departure_locations',
+          model: 'Location',
+          populate: {
+            path: '_creator',
+            model: 'User',
+          },
+        },
+        {
+          path: '_suggested_locations',
+          model: 'Location',
+          populate: {
+            path: '_creator',
+            model: 'User',
+          },
+        },
       ],
     })
     return foundUser !== null ? foundUser : false
@@ -72,12 +86,32 @@ const createFacebookUser = async profile => {
 
 const checkUsernamePassword = async (username, password) => {
   try {
-    const foundUser = await findUserBy('username', username)
+    let foundUser = await User.findOne({ username })
     if (!foundUser) {
       return false
     }
-    if (!bcrypt.compareSync(password, foundUser.password)) {
-      console.log('here')
+    if (bcrypt.compareSync(password, foundUser.password)) {
+      foundUser = await User.populate(foundUser, {
+        path: '_meetups',
+        populate: [
+          {
+            path: '_departure_locations',
+            model: 'Location',
+            populate: {
+              path: '_creator',
+              model: 'User',
+            },
+          },
+          {
+            path: '_suggested_locations',
+            model: 'Location',
+            populate: {
+              path: '_creator',
+              model: 'User',
+            },
+          },
+        ],
+      })
       return foundUser
     }
   } catch (err) {

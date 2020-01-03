@@ -33,7 +33,7 @@ export default function Login(props) {
       .then(user => {
         console.log('SUCCESS!', user)
         store.dispatch(set_user(user))
-        props.history.push('/') // Redirect to the home page
+        props.history.push('/userhome') // Redirect to the home page
       })
       .catch(err => setMessage(err.toString()))
   }

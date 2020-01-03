@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function UserHomeNavigator(props) {
-  const [user, setUser] = useState(api.getLocalStorageUser().user)
+  const [user, setUser] = useState(store.getState().user)
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)

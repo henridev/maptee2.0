@@ -36,8 +36,8 @@ export default function MeetupForm() {
     api
       .addMeetup({
         ...formValues,
-        _suggested_locations,
-        _departure_locations,
+        ..._suggested_locations,
+        ..._departure_locations,
         meetup_date: selectedDate,
       })
       .then(newMeetup => {

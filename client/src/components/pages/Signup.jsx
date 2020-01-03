@@ -45,7 +45,7 @@ export default function Signup(props) {
     api
       .signup(data)
       .then(user => {
-        console.log('SUCCESS!')
+        console.log('SUCCESS!', user)
         store.dispatch(set_user(user))
         props.history.push('/userhome') // Redirect to the home page
       })

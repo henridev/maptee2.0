@@ -2,17 +2,11 @@ const MeetUp = require('../models/MeetUp')
 const Location = require('../models/Location')
 const User = require('../models/User')
 
-const createLocation = async (
-  isDepature,
-  locationInfo,
-  locationInfolat,
-  locationInfolng,
-  userId
-) => {
+const createLocation = async (isDepature, locationInfo, userId) => {
   let location = await Location.create({
     isDepature,
     _creator: userId,
-    _location: { coordinates: [locationInfolat, locationInfolng] },
+    _location: { coordinates: [locationInfo.lat, locationInfo.lng] },
     g_id: locationInfo.g_id,
     g_name: locationInfo.g_name,
   })
@@ -59,12 +53,38 @@ const updateMeetupLocation = async (
   userId,
   isDeparture
 ) => {
-  MeetUp.findByIdAndUpdate(
-    meetupId,
-    { $addToSet: { loc_arr: newMeetup.id } },
+  let updatedMeetup
+  if (isDeparture) {
+    updatedMeetup = await MeetUp.findByIdAndUpdate(
+      meetupId,
+      { $addToSet: { _departure_locations: locationId } },
+      { new: true }
+    )
+  } else {
+    updatedMeetup = await MeetUp.findByIdAndUpdate(
+      meetupId,
+      { $addToSet: { _suggested_locations: locationId } },
+      { new: true }
+    )
+  }
+  await User.findByIdAndUpdate(
+    userId,
+    { $addToSet: { _meetups: updatedMeetup.id } },
     { new: true }
   )
+  updatedMeetup = await MeetUp.populate(updatedMeetup, {
+    path: '_departure_locations',
+    model: 'Location',
+    populate: { path: '_creator' },
+  })
+  updatedMeetup = await MeetUp.populate(updatedMeetup, {
+    path: '_suggested_locations',
+    model: 'Location',
+    populate: { path: '_creator' },
+  })
+  return updatedMeetup
 }
 
 module.exports.createLocation = createLocation
 module.exports.createMeetup = createMeetup
+module.exports.updateMeetupLocation = updateMeetupLocation

@@ -7,23 +7,20 @@ router.post('/meetup', isLoggedIn, (req, res, next) => {
   const meetup_date = req.body.meetup_date
   const name = req.body.name
   const description = req.body.description
-  const locationInfo = req.body._departure_locations
-  const locationInfolat = req.body._departure_locations.lat
-  const locationInfolng = req.body._departure_locations.lng
+  const locationInfo = {
+    g_id: req.body.g_id,
+    g_name: req.body.g_name,
+    lat: req.body.lat,
+    lng: req.body.lng,
+  }
   // should be either
   // current or searched location
   meetup_crud
-    .createLocation(
-      true,
-      locationInfo,
-      locationInfolat,
-      locationInfolng,
-      req.user._id
-    )
+    .createLocation(true, locationInfo, req.user._id)
     .then(newLocation => {
       const departureId = newLocation._id
       return meetup_crud.createMeetup(
-        _admin,
+        req.user._id,
         meetup_date,
         name,
         description,
@@ -38,33 +35,33 @@ router.post('/meetup', isLoggedIn, (req, res, next) => {
     })
 })
 
-router.patch("/meetup/:meetupId/", isLoggedIn, (req, res, next) => {
-  const field = req.params.field;
-  const meetupId = req.params.meetupId;
+router.patch('/meetup/:meetupId/', isLoggedIn, (req, res, next) => {
+  const meetupId = req.params.meetupId
   // ?departure=true
-  const isDeparture = Boolean(req.query.departure);
+  const isDeparture = Boolean(req.query.departure)
 
-  const locationInfo = req.body.location
-  const locationInfolat = req.body._departure_locations.lat
-  const locationInfolng = req.body._departure_locations.lng
+  const locationInfo = {
+    g_id: req.body.g_id,
+    g_name: req.body.g_name,
+    lat: req.body.lat,
+    lng: req.body.lng,
+  }
 
   meetup_crud
-    .createLocation(
-      isDeparture,
-      locationInfo,
-      locationInfolat,
-      locationInfolng,
-      req.user._id
-  ).then((newLocation) => {
+    .createLocation(isDeparture, locationInfo, req.user._id)
+    .then(newLocation => {
       const locationId = newLocation._id
-      return meetup_crud.updateMeetup(meetupId, locationId, req.user._id)
-  }).then((updatedMeetup) => {
+      return meetup_crud.updateMeetupLocation(
+        meetupId,
+        locationId,
+        req.user._id,
+        isDeparture
+      )
+    })
+    .then(updatedMeetup => {
       res.json(updatedMeetup)
+    })
+    .catch(err => console.error(err))
+})
 
-    }).catch()
-  
-}
-  
-
-  
 module.exports = router
