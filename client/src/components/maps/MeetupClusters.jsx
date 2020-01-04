@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Marker, MarkerClusterer } from '@react-google-maps/api'
 import { store } from '../../redux/_store'
+import { sumLat, sumLng } from '../../utils/GeoFunctions'
 import { set_meetups } from '../../redux/_actions'
 
 export default function MeetupMarkers({ positions }) {
   const meetups = store.getState().meetups
-  const sumLat = (accumulator, departure) =>
-    departure._location.coordinates[0] + accumulator
-  const sumLng = (accumulator, departure) =>
-    departure._location.coordinates[1] + accumulator
 
   const options = {
     imagePath:

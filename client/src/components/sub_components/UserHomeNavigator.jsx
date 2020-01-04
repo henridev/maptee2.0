@@ -21,6 +21,7 @@ import MapIcon from '@material-ui/icons/Map'
 import EditLocationIcon from '@material-ui/icons/EditLocation'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import ListAltIcon from '@material-ui/icons/ListAlt'
 import { store, startState } from '../../redux/_store'
 import { remove_user } from '../../redux/_actions'
 import api from '../../apis/auth_api'
@@ -158,20 +159,57 @@ export default function UserHomeNavigator(props) {
         </div>
         <Divider />
         <List>
-          {['my meetups', 'create meetup', 'friends', 'chat'].map(
+          {['map', 'my meetups', 'create meetup', 'friends', 'chat'].map(
             (text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
-                  {index === 0 ? <MapIcon /> : null}
+                  {index === 0 ? (
+                    <MapIcon
+                      color={
+                        props.activeIndex === index ? 'secondary' : 'disabled'
+                      }
+                      onClick={e => {
+                        console.log(e)
+                        props.history.push('/userhome')
+                      }}
+                    />
+                  ) : null}
                   {index === 1 ? (
+                    <ListAltIcon
+                      color={
+                        props.activeIndex === index ? 'secondary' : 'disabled'
+                      }
+                      onClick={e => {
+                        console.log(e)
+                        props.history.push('/meetuplist')
+                      }}
+                    />
+                  ) : null}
+
+                  {index === 2 ? (
                     <EditLocationIcon
+                      color={
+                        props.activeIndex === index ? 'secondary' : 'disabled'
+                      }
                       onClick={() => {
                         props.setshowMeetupForm(!props.showMeetupForm)
                       }}
                     />
                   ) : null}
-                  {index === 2 ? <PeopleIcon /> : null}
-                  {index === 3 ? <ChatIcon /> : null}
+                  {index === 3 ? (
+                    <PeopleIcon
+                      color={
+                        props.activeIndex === index ? 'secondary' : 'disabled'
+                      }
+                    />
+                  ) : null}
+                  {index === 4 ? (
+                    <ChatIcon
+                      color={
+                        props.activeIndex === index ? 'secondary' : 'disabled'
+                      }
+                    />
+                  ) : null}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>

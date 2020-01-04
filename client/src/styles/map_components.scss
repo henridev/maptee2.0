@@ -1,0 +1,41 @@
+.infobox {
+  background-color: white;
+  opacity: 1;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.infobox:hover {
+  background-color: $ya_yellow;
+  cursor: pointer;
+}
+
+.infobox .infobox_title {
+  font-size: 1rem;
+}
+
+.infobox b {
+}
+
+.infobox .infobox_description {
+}
+
+.searchboxes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  top: 20%;
+  display: flex;
+  height: 100px;
+  flex-direction: column;
+}
+
+.searchboxes div {
+  flex-grow: 1;
+}
+
+.searchboxes_button_wrapper {
+}

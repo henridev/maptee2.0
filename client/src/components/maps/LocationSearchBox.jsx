@@ -11,11 +11,13 @@ export default function LocationSearch(props) {
     const g_id = places[0].id
     const g_name = places[0].formatted_address
     try {
-      props.set_departure_locations({ lat, lng, g_id, g_name })
+      if (props.setNewLocation) {
+        return props.setNewLocation({ lat, lng, g_id, g_name })
+      }
+      return props.set_departure_locations({ lat, lng, g_id, g_name })
     } catch {
-      props.set_suggested_locations({ lat, lng, g_id, g_name })
+      return props.set_suggested_locations({ lat, lng, g_id, g_name })
     }
-    console.log(places, lat, lng)
   }
 
   return (
@@ -38,6 +40,7 @@ export default function LocationSearch(props) {
           left: '50%',
           marginLeft: '-120px',
           backgroundColor: props.backgroundColor,
+          ...props.style,
         }}
       />
     </StandaloneSearchBox>

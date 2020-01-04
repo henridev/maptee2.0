@@ -10,11 +10,10 @@ import ReactDOM from 'react-dom'
 
 export default function Login(props) {
   const responseFacebook = userprofile => {
-    console.log(userprofile)
     api
       .facebookLogin(userprofile)
       .then(user => {
-        console.log('SUCCESS!')
+        console.log('SUCCESS!', user)
         store.dispatch(set_user(user.user))
         props.history.push('/userhome')
       })

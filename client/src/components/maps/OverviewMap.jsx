@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import api from '../../apis/meetup_api'
 import { getCurrentLocation } from '../../utils/GeoFunctions'
-import {
-  GoogleMap,
-  useLoadScript,
-  useGoogleMap,
-  Marker,
-} from '@react-google-maps/api'
-import MeetupMarkers from './MeetupMarkers'
-import Polygons from './Polygon'
+import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import { store } from '../../redux/_store'
 import { set_meetups } from '../../redux/_actions'
+import NearMeIcon from '@material-ui/icons/NearMe'
+import MyLocationIcon from '@material-ui/icons/MyLocation'
+import AddIcon from '@material-ui/icons/Add'
+import MeetupInfoWindows from './MeetupInfoWindows'
+import LocationSearchBox from './LocationSearchBox'
+import MeetupMarkers from './MeetupMarkers'
+import Button from '../sub_components/Button'
 
 const GOOGLE_MAP_API_KEY = 'AIzaSyC4eD0NjYalr1zMt-mbfb7nEPiC39-xAOo'
 export default function OverviewMap(props) {
   const [position, setPosition] = useState({ lat: 0, lng: 0 })
   const [meetups, setmeetups] = useState(null)
+  const [isInput, setisInput] = useState(false)
+  const [newLocation, setNewLocation] = useState(null)
+  const [selectedmeetup, setselectedmeetup] = useState(null)
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
     libraries: ['places'],
@@ -31,6 +35,14 @@ export default function OverviewMap(props) {
       ' : ',
       args[0].latLng.lng()
     )
+  }
+
+  const handleNewLocationClick = e => {
+    if (isInput === 'departure') {
+      api.addDeparture()
+    } else {
+      api.addSuggestion()
+    }
   }
 
   useEffect(() => {
@@ -53,7 +65,36 @@ export default function OverviewMap(props) {
       onLoad={onMapLoad}
       onClick={onClick}
     >
-      <MeetupMarkers setmeetups={setmeetups} />
+      {isInput && (
+        <div>
+          <LocationSearchBox
+            placeholder={isInput}
+            setNewLocation={setNewLocation}
+          />
+          <Button icon={<AddIcon />} onClick={handleNewLocationClick} />
+        </div>
+      )}
+      {selectedmeetup !== null && (
+        <>
+          <MeetupMarkers selectedmeetup={selectedmeetup} />
+          <div className="map_buttons">
+            <Button
+              icon={<NearMeIcon />}
+              onClick={() => setisInput(isInput ? 'departure' : false)}
+            />
+            <Button
+              icon={<MyLocationIcon />}
+              onClick={() => setisInput(isInput ? 'suggestion' : false)}
+            />
+          </div>
+        </>
+      )}
+      {selectedmeetup === null && (
+        <MeetupInfoWindows
+          setmeetups={setmeetups}
+          setselectedmeetup={setselectedmeetup}
+        />
+      )}
     </GoogleMap>
   ) : null
 }

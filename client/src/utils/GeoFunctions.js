@@ -9,4 +9,10 @@ function getCurrentLocation(setposition) {
   }
 }
 
-export { getCurrentLocation }
+const sumLat = (accumulator, departureORsuggestion) =>
+  departureORsuggestion._location.coordinates[0] + accumulator
+
+const sumLng = (accumulator, departureORsuggestion) =>
+  departureORsuggestion._location.coordinates[1] + accumulator
+
+export { getCurrentLocation, sumLat, sumLng }

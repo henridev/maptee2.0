@@ -31,13 +31,13 @@ export default function Polygons({ positions, setmeetups }) {
   const renderPolygon = () => {
     let paths_arr = []
     let names
+
     departure_locations_arrays.forEach(dep_loc => {
       console.log(dep_loc, '---')
       let paths = []
       dep_loc.forEach(loc => {
         const lat = loc._location.coordinates[0]
         const lng = loc._location.coordinates[1]
-        const creator = loc._location._creator
         paths.push({ lat, lng })
       })
       paths_arr.push(paths)

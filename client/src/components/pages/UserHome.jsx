@@ -18,6 +18,7 @@ export default function UserWelcome(props) {
     <div>
       {showMeetupForm && <MeetupForm />}
       <UserHomeNavigator
+        activeIndex={0}
         history={props.history}
         setshowMeetupForm={setshowMeetupForm}
         showMeetupForm={showMeetupForm}
