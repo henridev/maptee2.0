@@ -11,8 +11,9 @@ import MeetupInfoWindows from './MeetupInfoWindows'
 import LocationSearchBox from './LocationSearchBox'
 import MeetupMarkers from './MeetupMarkers'
 import Button from '../sub_components/Button'
-
+const libararies = ['places']
 const GOOGLE_MAP_API_KEY = 'AIzaSyC4eD0NjYalr1zMt-mbfb7nEPiC39-xAOo'
+
 export default function OverviewMap(props) {
   const [position, setPosition] = useState({ lat: 0, lng: 0 })
   const [meetups, setmeetups] = useState(null)
@@ -21,7 +22,7 @@ export default function OverviewMap(props) {
   const [selectedmeetup, setselectedmeetup] = useState(null)
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAP_API_KEY,
-    libraries: ['places'],
+    libraries: libararies,
   })
 
   const onMapLoad = map => {
@@ -38,11 +39,9 @@ export default function OverviewMap(props) {
   }
 
   const handleNewLocationClick = e => {
-    if (isInput === 'departure') {
-      api.addDeparture()
-    } else {
-      api.addSuggestion()
-    }
+    return isInput === 'departure'
+      ? api.addLocation(selectedmeetup._id, true, newLocation)
+      : api.addLocation(selectedmeetup._id, false, newLocation)
   }
 
   useEffect(() => {
@@ -66,10 +65,11 @@ export default function OverviewMap(props) {
       onClick={onClick}
     >
       {isInput && (
-        <div>
+        <div className="input_location">
           <LocationSearchBox
             placeholder={isInput}
             setNewLocation={setNewLocation}
+            className="searchbox_variant"
           />
           <Button icon={<AddIcon />} onClick={handleNewLocationClick} />
         </div>
@@ -80,11 +80,11 @@ export default function OverviewMap(props) {
           <div className="map_buttons">
             <Button
               icon={<NearMeIcon />}
-              onClick={() => setisInput(isInput ? 'departure' : false)}
+              onClick={() => setisInput(isInput ? false : 'departure')}
             />
             <Button
               icon={<MyLocationIcon />}
-              onClick={() => setisInput(isInput ? 'suggestion' : false)}
+              onClick={() => setisInput(isInput ? false : 'suggestion')}
             />
           </div>
         </>

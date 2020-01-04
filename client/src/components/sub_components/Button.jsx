@@ -17,7 +17,7 @@ export default function Button(props) {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onClick={props.onClick}>
       <Fab color="primary" aria-label="add">
         {props.icon}
       </Fab>

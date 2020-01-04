@@ -3,6 +3,17 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const bcryptSalt = 10
 
+const maskPassword = foundUser => {
+  return foundUser._meetups.map(meetup => {
+    const _users = meetup._users.map(user => {
+      return { ...user, password: null }
+    })
+    meetup._users = _users
+    console.log('---', meetup)
+    return meetup
+  })
+}
+
 const createUser = async userInfo => {
   try {
     const salt = bcrypt.genSaltSync(bcryptSalt)
@@ -50,8 +61,13 @@ const findUserBy = async (searchquery, searchterm) => {
             model: 'User',
           },
         },
+        {
+          path: '_users',
+          model: 'User',
+        },
       ],
     })
+    foundUser._meetups = maskPassword(foundUser)
     return foundUser !== null ? foundUser : false
   } catch (err) {
     console.log(err, 'error during user lookup')
@@ -110,8 +126,14 @@ const checkUsernamePassword = async (username, password) => {
               model: 'User',
             },
           },
+          {
+            path: '_users',
+            model: 'User',
+          },
         ],
       })
+      foundUser._meetups = maskPassword(foundUser)
+      console.log(foundUser)
       return foundUser
     }
   } catch (err) {

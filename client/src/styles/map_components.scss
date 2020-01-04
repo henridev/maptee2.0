@@ -33,9 +33,58 @@
   flex-direction: column;
 }
 
-.searchboxes div {
-  flex-grow: 1;
+.map_buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  bottom: 10px;
+  display: flex;
+  /* height: 100px; */
+  align-items: center;
+  justify-content: center;
 }
 
-.searchboxes_button_wrapper {
+.input_location {
+  left: 0;
+  width: 600px;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.standard_searchbox {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  width: 240px;
+  height: 32px;
+  padding: 0px 12px;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px;
+  font-size: 14px;
+  outline: none;
+  position: absolute;
+  left: 50%;
+  margin-left: -120px;
+}
+
+.searchbox_variant {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  width: 240px;
+  height: 32px;
+  padding: 0px 12px;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 6px;
+  font-size: 14px;
+  outline: none;
+  left: 50%;
 }

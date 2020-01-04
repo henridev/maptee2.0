@@ -3,7 +3,7 @@ import { InfoBox } from '@react-google-maps/api'
 import { store } from '../../redux/_store'
 import { sumLat, sumLng } from '../../utils/GeoFunctions'
 
-export default function MeetupInnfoWindows({
+export default function MeetupInfoWindows({
   positions,
   setmeetups,
   setselectedmeetup,

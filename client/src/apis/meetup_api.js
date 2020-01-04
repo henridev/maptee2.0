@@ -22,15 +22,6 @@ const errHandler = err => {
 export default {
   service: service,
 
-  // This is an example on how to use this method in a different file
-  // api.getCountries().then(countries => { /* ... */ })
-  getCountries() {
-    return service
-      .get('/countries')
-      .then(res => res.data)
-      .catch(errHandler)
-  },
-
   addMeetup(body) {
     console.log(body)
     return service
@@ -39,9 +30,16 @@ export default {
       .catch(errHandler)
   },
 
-  getSecret() {
+  addLocation(meetupId, isDeparture, body) {
     return service
-      .get('/secret')
+      .patch(`/meetup/${meetupId}?departure=${isDeparture.toString()}`, body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  addSuggestion() {
+    return service
+      .post('/secret')
       .then(res => res.data)
       .catch(errHandler)
   },
