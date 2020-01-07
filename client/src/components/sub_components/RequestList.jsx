@@ -39,14 +39,14 @@ export default function RequestList(props) {
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={() => api.acceptRequest(request._id)}
+                onClick={() => api.acceptFriendRequest(request._id)}
               >
                 <CheckCircleIcon />
               </IconButton>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={() => api.declineRequest(request._id)}
+                onClick={() => api.declineFriendRequest(request._id)}
               >
                 <NotInterestedIcon />
               </IconButton>

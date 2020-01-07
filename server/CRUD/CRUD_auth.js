@@ -41,6 +41,10 @@ const userPopulation = async populatedUser => {
         { path: '_requester', model: 'User' },
       ],
     },
+    {
+      path: '_friends',
+      model: 'User',
+    },
   ])
   return await populatedUser.populate(populatedUser, {
     path: '_friend_requests',

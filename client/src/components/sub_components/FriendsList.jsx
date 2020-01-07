@@ -12,13 +12,20 @@ export default function FriendList(props) {
     return null
   }
   return (
-    <div>
+    <div className="friendlist">
       {friends.map(friend => {
         return (
-          <div className="out_friend_wrapper">
-            <Avatar alt="user" src={friend.avatar_url} />
-            <div>
-              <span>{friend.username}</span>
+          <div className="friend_wrapper">
+            <Avatar
+              alt="user"
+              src={friend.avatar_url}
+              style={{ width: 150, height: 150 }}
+            />
+            <h1 className="friend_name">{friend.username}</h1>
+            <div className="friend_icon_wrapper">
+              <i className="fas fa-heart"></i>
+              <i className="fas fa-share"></i>
+              <i className="fas fa-users"></i>
             </div>
           </div>
         )

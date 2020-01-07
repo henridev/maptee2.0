@@ -20,8 +20,8 @@ export default function App(props) {
     if (!api.isLoggedIn()) {
       console.log('here')
       try {
-        console.log('signupppp')
         api.google_signup().then(user => {
+          console.log('google signup', user)
           store.dispatch(set_user(user.user))
           store.dispatch(set_meetups(user.user._meetups))
         })

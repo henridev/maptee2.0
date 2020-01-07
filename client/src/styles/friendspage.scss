@@ -9,10 +9,23 @@
 }
 
 .in_request_wrapper,
-.out_request_wrapper {
+.out_request_wrapper,
+.friend_wrapper {
   display: flex;
   align-items: center;
   margin: 1%;
+}
+
+.friend_wrapper {
+  height: 300px;
+  width: 200px;
+  padding: 5px;
+  margin: 20px;
+  background-color: white;
+  border: 2px solid white;
+  display: grid;
+  place-content: space-between center;
+  box-shadow: rgba(0, 0, 0, 0.5) 1px 1px 3px;
 }
 
 .in_request_wrapper > *,
@@ -33,4 +46,23 @@
 
 .request_text span:last-of-type {
   font-size: 1rem;
+}
+
+.friend_name {
+  font-size: 18px;
+  text-align: center;
+}
+
+.friend_icon_wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.friend_icon_wrapper i {
+  font-size: 18px;
+}
+
+.friendlist {
+  display: flex;
 }

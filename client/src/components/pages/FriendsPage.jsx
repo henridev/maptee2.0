@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import UserHomeNavigator from '../sub_components/UserHomeNavigator'
 import SendRequestButton from '../sub_components/SendRequestButton'
 import RequestList from '../sub_components/RequestList'
+import FriendsList from '../sub_components/FriendsList'
 import { store } from '../../redux/_store'
 import api from '../../apis/friends_api'
 
@@ -30,7 +31,6 @@ export default function FriendPage(props) {
     >
       <div className="friendspage">
         <RequestList />
-        <FriendsList />
         <SendRequestButton
           openbtn="send friend request"
           text="give in friends email to send him a request"
@@ -40,6 +40,7 @@ export default function FriendPage(props) {
           className="send_friendrequest_container"
           sendHandler={sendHandler}
         />
+        <FriendsList />
       </div>
     </UserHomeNavigator>
   )
