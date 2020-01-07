@@ -8,7 +8,6 @@ export default function MeetupList(props) {
   const [showMeetupForm, setshowMeetupForm] = useState(false)
   const [meetups, setmeetups] = useState(store.getState().meetups)
 
-  useEffect(() => {}, [])
   return (
     <UserHomeNavigator
       activeIndex={1}
@@ -16,11 +15,14 @@ export default function MeetupList(props) {
       setshowMeetupForm={setshowMeetupForm}
       showMeetupForm={showMeetupForm}
     >
-      <div className="meetup_card_wrapper">
-        {meetups.map((meetup, i) => {
-          return <MeetupCard key={i} meetup={meetup} />
-        })}
-      </div>
+      {!meetups && <div>add some meetups</div>}
+      {meetups && (
+        <div className="meetup_card_wrapper">
+          {meetups.map((meetup, i) => {
+            return <MeetupCard key={i} meetup={meetup} />
+          })}
+        </div>
+      )}
     </UserHomeNavigator>
   )
 }

@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField'
 import DateTimeSelection from './DateTimeSelection'
 import LocationSearch from '../maps/LocationSearchBox'
 import api from '../../apis/meetup_api'
+import { store, startState } from '../../redux/_store'
+import { add_meetup } from '../../redux/_actions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,7 +43,7 @@ export default function MeetupForm() {
         meetup_date: selectedDate,
       })
       .then(newMeetup => {
-        console.log(newMeetup)
+        store.dispatch(add_meetup(newMeetup))
       })
       .catch(err => console.error(err))
   }

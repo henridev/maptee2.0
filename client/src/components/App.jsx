@@ -21,9 +21,8 @@ export default function App(props) {
       try {
         console.log('signupppp')
         api.google_signup().then(user => {
-          console.log('heheeh', user)
           store.dispatch(set_user(user.user))
-          store.dispatch(set_meetups(user._meetups))
+          store.dispatch(set_meetups(user.user._meetups))
         })
       } catch (err) {
         console.error(err)
@@ -41,7 +40,7 @@ export default function App(props) {
       <Switch>
         <Route path="/" exact component={Landing} />
         <Route path="/userhome" component={!isUser ? Spinner : UserHome} />
-        <Route path="/meetuplist" component={MeetupList} />
+        <Route path="/meetuplist" component={!isUser ? Spinner : MeetupList} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/test" component={MyComponent}></Route>

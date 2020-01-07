@@ -90,7 +90,12 @@ router.post(
 
 router.get('/info', (req, res) => {
   if (req.user) {
-    res.json({ user: req.user })
+    auth_crud
+      .userPopulation(req.user)
+      .then(user => {
+        res.json({ user: user })
+      })
+      .catch(err => console.error(err))
   }
 })
 

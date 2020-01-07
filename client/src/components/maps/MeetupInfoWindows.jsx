@@ -9,6 +9,7 @@ export default function MeetupInfoWindows({
   setselectedmeetup,
 }) {
   const meetups = store.getState().meetups
+  console.log(meetups, 'meetupssss')
   if (!meetups) {
     return null
   }

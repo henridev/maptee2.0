@@ -5,7 +5,7 @@ export default function meetups_update(meetups = null, action) {
     case SET_MEETUPS:
       return action.meetups
     case ADD_MEETUP:
-      return action.meetup
+      return [...meetups, action.meetup]
     default:
       return meetups
   }

@@ -3,10 +3,39 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const bcryptSalt = 10
 
+const userPopulation = async populatedUser => {
+  return await User.populate(populatedUser, {
+    path: '_meetups',
+    populate: [
+      {
+        path: '_departure_locations',
+        model: 'Location',
+        populate: {
+          path: '_creator',
+          model: 'User',
+        },
+      },
+      {
+        path: '_suggested_locations',
+        model: 'Location',
+        populate: {
+          path: '_creator',
+          model: 'User',
+        },
+      },
+      {
+        path: '_users',
+        model: 'User',
+      },
+    ],
+  })
+}
+
 const maskPassword = foundUser => {
   return foundUser._meetups.map(meetup => {
     const _users = meetup._users.map(user => {
-      return { ...user, password: null }
+      delete user.password
+      return { ...user }
     })
     meetup._users = _users
     return meetup
@@ -40,31 +69,7 @@ const findUserBy = async (searchquery, searchterm) => {
     if (searchquery === 'email') {
       foundUser = await User.findOne({ email: searchterm })
     }
-    foundUser = await User.populate(foundUser, {
-      path: '_meetups',
-      populate: [
-        {
-          path: '_departure_locations',
-          model: 'Location',
-          populate: {
-            path: '_creator',
-            model: 'User',
-          },
-        },
-        {
-          path: '_suggested_locations',
-          model: 'Location',
-          populate: {
-            path: '_creator',
-            model: 'User',
-          },
-        },
-        {
-          path: '_users',
-          model: 'User',
-        },
-      ],
-    })
+    foundUser = await userPopulation(foundUser)
     foundUser._meetups = maskPassword(foundUser)
     return foundUser !== null ? foundUser : false
   } catch (err) {
@@ -104,31 +109,7 @@ const checkUsernamePassword = async (username, password) => {
       return false
     }
     if (bcrypt.compareSync(password, foundUser.password)) {
-      foundUser = await User.populate(foundUser, {
-        path: '_meetups',
-        populate: [
-          {
-            path: '_departure_locations',
-            model: 'Location',
-            populate: {
-              path: '_creator',
-              model: 'User',
-            },
-          },
-          {
-            path: '_suggested_locations',
-            model: 'Location',
-            populate: {
-              path: '_creator',
-              model: 'User',
-            },
-          },
-          {
-            path: '_users',
-            model: 'User',
-          },
-        ],
-      })
+      foundUser = await userPopulation(foundUser)
       foundUser._meetups = maskPassword(foundUser)
       console.log(foundUser)
       return foundUser
@@ -143,3 +124,4 @@ module.exports.createUser = createUser
 module.exports.checkUsernamePassword = checkUsernamePassword
 module.exports.createFacebookUser = createFacebookUser
 module.exports.createGoogleUser = createGoogleUser
+module.exports.userPopulation = userPopulation
