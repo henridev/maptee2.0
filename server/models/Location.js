@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const pointSchema = new mongoose.Schema({
+const pointSchema = new Schema({
   // this schema includes 2 shematypes type and coordinates
   // when mongoose finds nested prop named type it assumes it needs
   // to define a shematype with the given type
@@ -14,7 +15,7 @@ const pointSchema = new mongoose.Schema({
   },
 })
 
-const schema = new mongoose.Schema(
+const schema = new Schema(
   {
     _location: {
       // location needs to be defined like pointschema

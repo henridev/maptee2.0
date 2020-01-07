@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import UserHomeNavigator from '../sub_components/UserHomeNavigator'
 import SendRequestButton from '../sub_components/SendRequestButton'
+import RequestList from '../sub_components/RequestList'
 import { store } from '../../redux/_store'
 import api from '../../apis/friends_api'
 
@@ -27,16 +28,19 @@ export default function FriendPage(props) {
       setshowMeetupForm={setshowMeetupForm}
       showMeetupForm={showMeetupForm}
     >
-      <div>{friends.toString()}</div>
-      <SendRequestButton
-        openbtn="send friend request"
-        text="give in friends email to send him a request"
-        title="Request"
-        cancelbtn="cancel"
-        sendbtn="send"
-        className="send_friendrequest_container"
-        sendHandler={sendHandler}
-      />
+      <div className="friendspage">
+        <RequestList />
+        <FriendsList />
+        <SendRequestButton
+          openbtn="send friend request"
+          text="give in friends email to send him a request"
+          title="Request"
+          cancelbtn="cancel"
+          sendbtn="send"
+          className="send_friendrequest_container"
+          sendHandler={sendHandler}
+        />
+      </div>
     </UserHomeNavigator>
   )
 }

@@ -1,8 +1,36 @@
 .send_friendrequest_container {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 0;
   margin-left: auto;
   margin-right: auto;
+}
+
+.friendspage {
+  margin-top: 70px;
+  height: 95vh;
+}
+
+.in_request_wrapper,
+.out_request_wrapper {
+  display: flex;
+  align-items: center;
+  margin: 1%;
+}
+
+.in_request_wrapper > *,
+.out_request_wrapper > * {
+  margin: 1%;
+}
+
+.request_text {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.request_text span:first-of-type {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.request_text span:last-of-type {
+  font-size: 1rem;
 }

@@ -4,30 +4,47 @@ const bcrypt = require('bcrypt')
 const bcryptSalt = 10
 
 const userPopulation = async populatedUser => {
-  return await User.populate(populatedUser, {
-    path: '_meetups',
-    populate: [
-      {
-        path: '_departure_locations',
-        model: 'Location',
-        populate: {
-          path: '_creator',
+  return await User.populate(populatedUser, [
+    {
+      path: '_meetups',
+      populate: [
+        {
+          path: '_departure_locations',
+          model: 'Location',
+          populate: {
+            path: '_creator',
+            model: 'User',
+          },
+        },
+        {
+          path: '_suggested_locations',
+          model: 'Location',
+          populate: {
+            path: '_creator',
+            model: 'User',
+          },
+        },
+        {
+          path: '_users',
           model: 'User',
         },
-      },
-      {
-        path: '_suggested_locations',
-        model: 'Location',
-        populate: {
-          path: '_creator',
+      ],
+    },
+    {
+      path: '_friend_requests',
+      model: 'FriendRequest',
+      populate: [
+        {
+          path: '_recipient',
           model: 'User',
         },
-      },
-      {
-        path: '_users',
-        model: 'User',
-      },
-    ],
+        { path: '_requester', model: 'User' },
+      ],
+    },
+  ])
+  return await populatedUser.populate(populatedUser, {
+    path: '_friend_requests',
+    model: 'FriendRequest',
   })
 }
 
