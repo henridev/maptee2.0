@@ -105,10 +105,6 @@ export default function UserHomeNavigator(props) {
     props.history.push('/')
   }
 
-  if (user === null) {
-    return <Spinner />
-  }
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -201,6 +197,9 @@ export default function UserHomeNavigator(props) {
                       color={
                         props.activeIndex === index ? 'secondary' : 'disabled'
                       }
+                      onClick={() => {
+                        props.history.push('/friendspage')
+                      }}
                     />
                   ) : null}
                   {index === 4 ? (

@@ -4,6 +4,7 @@ import Spinner from './sub_components/Spinner'
 import Landing from './pages/LandingPage'
 import UserHome from './pages/UserHome'
 import MeetupList from './pages/MeetupList'
+import FriendsPage from './pages/FriendsPage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import MyComponent from './maps/OverviewMap'
@@ -41,6 +42,10 @@ export default function App(props) {
         <Route path="/" exact component={Landing} />
         <Route path="/userhome" component={!isUser ? Spinner : UserHome} />
         <Route path="/meetuplist" component={!isUser ? Spinner : MeetupList} />
+        <Route
+          path="/friendspage"
+          component={!isUser ? Spinner : FriendsPage}
+        />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/test" component={MyComponent}></Route>

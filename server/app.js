@@ -54,6 +54,7 @@ app.use(
 require('./passport')(app)
 
 app.use('/api/user', require('./routes/auth'))
+app.use('/api/friends', require('./routes/friends'))
 app.use('/api', require('./routes/meetups'))
 
 // create an error if we have an api route that does not
