@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import api from '../../apis/auth_api'
 import { store, startState } from '../../redux/_store'
 import { set_user } from '../../redux/_actions'
-import DragDropFile from '../sub_components/DragDropFile'
+import DragDropFile from '../sub_components/landing/DragDropFile'
 
 export default function Signup(props) {
   const [state, setState] = useState({
@@ -16,12 +16,10 @@ export default function Signup(props) {
   })
 
   function handleFileChange_btn(e) {
-    console.log('the file added by the user is: ', e.target.files[0])
     setState({ ...state, avatar: e.target.files[0] })
   }
 
   function handleFileChange(file) {
-    console.log('the file added by the user is: ', file)
     setState({ ...state, avatar: file })
   }
 
@@ -116,7 +114,6 @@ export default function Signup(props) {
           </button>
         </form>
       </div>
-
       {state.message && <div className="info info-danger">{state.message}</div>}
     </div>
   )

@@ -9,7 +9,6 @@ const maskPassword = foundUser => {
       return { ...user, password: null }
     })
     meetup._users = _users
-    console.log('---', meetup)
     return meetup
   })
 }
@@ -20,7 +19,6 @@ const createUser = async userInfo => {
     const hashPass = bcrypt.hashSync(userInfo.password, salt)
     const newUser = new User({ ...userInfo, password: hashPass })
     const created_user = await newUser.save()
-    console.log('user created: ', created_user)
     return created_user
   } catch (err) {
     console.error(err, 'error during user creation')
@@ -87,7 +85,6 @@ const createGoogleUser = async profile => {
 }
 
 const createFacebookUser = async profile => {
-  console.log('picture url', profile.pictureUrl)
   const newUser = await new User({
     username: profile.name,
     facebook_id: profile.id,

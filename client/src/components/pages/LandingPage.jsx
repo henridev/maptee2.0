@@ -1,28 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import api from '../../apis/auth_api'
-import { store, startState } from '../../redux/_store'
-import { set_user } from '../../redux/_actions'
 import Logo from '../../assets/images/temp_logo.png'
 import { Link } from 'react-router-dom'
-import BottomNavigator from '../sub_components/BottomNavigator'
+import BottomNavigator from '../sub_components/landing/BottomNavigator'
 
 export default function LandingPage(props) {
   const [user, setUser] = useState(
     api.getLocalStorageUser() != null ? api.getLocalStorageUser().user : null
   )
-  console.log(user)
-  useEffect(() => {
-    if (!api.isLoggedIn()) {
-      try {
-        api.google_signup().then(user => {
-          console.log(user)
-          store.dispatch(set_user(user.user))
-        })
-      } catch (err) {
-        console.error(err)
-      }
-    }
-  }, [])
 
   return (
     <div className="Home">

@@ -6,12 +6,6 @@ import { store, startState } from '../../redux/_store'
 import { set_user, set_meetups } from '../../redux/_actions'
 
 export default function UserWelcome(props) {
-  useEffect(() => {
-    const user_ = store.getState().user
-    store.dispatch(set_meetups(user_._meetups))
-    console.log(store.getState().meetups, 'new state')
-  }, [])
-
   const [showMeetupForm, setshowMeetupForm] = useState(false)
 
   return (

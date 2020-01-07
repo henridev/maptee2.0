@@ -1,5 +1,4 @@
 import React from 'react'
-import api from '../../apis/auth_api'
 
 export default function GoogleSignIn(props) {
   return (
@@ -39,17 +38,3 @@ export default function GoogleSignIn(props) {
     </a>
   )
 }
-
-//  ;<a
-//    className="btn-one login-btn"
-//    style={{ backgroundColor: '#3B5899', margin: 5 }}
-//    title="login with facebook"
-//    href={
-//      process.env.NODE_ENV === 'production'
-//        ? '/authentication/login-facebook'
-//        : `http://${window.location.hostname}:5000/authentication/login-facebook`
-//    }
-//  >
-//    <img src={FacebookIcon} alt="facebook-icon" className="btn-icon" />
-//    <span className="btn-txt">Login</span>
-//  </a>

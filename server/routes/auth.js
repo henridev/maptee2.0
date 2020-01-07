@@ -72,7 +72,7 @@ router.get(
   (req, res, next) => {
     req.logIn(req.user, () => {
       req.user.password = undefined
-      res.redirect(`${process.env.CLIENT_URL}`)
+      res.redirect(`${process.env.CLIENT_URL}/userhome`)
     })
   }
 )
@@ -98,7 +98,5 @@ router.get('/logout', (req, res) => {
   req.logout()
   res.json({ message: 'You are out!' })
 })
-
-router.get('/return-google-user', (req, res) => {})
 
 module.exports = router

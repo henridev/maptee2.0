@@ -22,6 +22,7 @@ import EditLocationIcon from '@material-ui/icons/EditLocation'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import ListAltIcon from '@material-ui/icons/ListAlt'
+import Spinner from './Spinner.jsx'
 import { store, startState } from '../../redux/_store'
 import { remove_user } from '../../redux/_actions'
 import api from '../../apis/auth_api'
@@ -92,21 +93,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function UserHomeNavigator(props) {
   const [user, setUser] = useState(store.getState().user)
+  const [open, setOpen] = React.useState(false)
   const classes = useStyles()
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
 
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
+  const handleDrawer = () => setOpen(!open)
 
   const handleLogout = () => {
     api.logout()
     store.dispatch(remove_user(null))
     props.history.push('/')
+  }
+
+  if (user === null) {
+    return <Spinner />
   }
 
   return (
@@ -122,7 +122,7 @@ export default function UserHomeNavigator(props) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={handleDrawer}
             edge="start"
             className={clsx(classes.menuButton, {
               [classes.hide]: open,
@@ -149,7 +149,7 @@ export default function UserHomeNavigator(props) {
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawer}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (

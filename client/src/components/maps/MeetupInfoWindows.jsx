@@ -9,6 +9,9 @@ export default function MeetupInfoWindows({
   setselectedmeetup,
 }) {
   const meetups = store.getState().meetups
+  if (!meetups) {
+    return null
+  }
 
   const options = { closeBoxURL: '', enableEventPropagation: true }
 
@@ -54,6 +57,7 @@ export default function MeetupInfoWindows({
       <div className="infobox" onClick={handleClick} data-id={info.id}>
         <h3 className="infobox_title">{info.name}</h3>
         <b>date: {info.date}</b>
+        <br />
         <b>time: {info.time}</b>
         <p className="infobox_description">{info.description}</p>
       </div>

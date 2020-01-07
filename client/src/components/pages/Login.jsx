@@ -1,38 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../apis/auth_api'
-import GoogleSignIn from '../sub_components/GoogleSignIn'
+import GoogleSignIn from '../sub_components/landing/GoogleSignIn'
 import FacebookLoginButton from 'react-facebook-login'
 import { useForm } from '../../hooks'
-import { store, startState } from '../../redux/_store'
-import { set_user } from '../../redux/_actions'
-import { Link, NavLink } from 'react-router-dom'
-import ReactDOM from 'react-dom'
+import { store } from '../../redux/_store'
+import { set_user, set_meetups } from '../../redux/_actions'
+import { Link } from 'react-router-dom'
 
 export default function Login(props) {
-  const responseFacebook = userprofile => {
-    api
-      .facebookLogin(userprofile)
-      .then(user => {
-        console.log('SUCCESS!', user)
-        store.dispatch(set_user(user.user))
-        props.history.push('/userhome')
-      })
-      .catch(err => console.error(err))
-  }
-
   const { formValues, getInputProps } = useForm({
     username: '',
     password: '',
   })
+
+  const updateStore = user => {
+    console.log('SUCCES', user)
+    store.dispatch(set_user(user.user))
+    store.dispatch(set_meetups(user.user._meetups))
+    console.log('dispatched', user)
+    props.history.push('/userhome')
+  }
+
+  const responseFacebook = userprofile => {
+    api
+      .facebookLogin(userprofile)
+      .then(user => {
+        updateStore(user)
+      })
+      .catch(err => console.error(err))
+  }
 
   function handleSubmit(e) {
     e.preventDefault()
     api
       .login(formValues.username, formValues.password)
       .then(user => {
-        console.log('SUCCESS!', user)
-        store.dispatch(set_user(user))
-        props.history.push('/userhome') // Redirect to the home page
+        updateStore(user)
       })
       .catch(err => setMessage(err.toString()))
   }
