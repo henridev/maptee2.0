@@ -19,7 +19,7 @@ export default function DepartureMeetupMarkers({ locations }) {
           <Avatar
             alt={creator_name}
             src={avatar_url}
-            style={{ width: 50, height: 50, border: '2px solid yellow' }}
+            style={{ width: 50, height: 50, border: '4px solid #ffc833' }}
           />
           <h5>{creator_name}</h5>
         </div>
