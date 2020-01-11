@@ -28,17 +28,15 @@ export default function MeetupInfoWindows({
     let lat
     let lng
     try {
-      lat =
-        (avgLat(meetup._departure_locations) +
-          avgLat(meetup._suggested_locations)) /
-        2
-      lng =
-        (avgLng(meetup._departure_locations) +
-          avgLng(meetup._suggested_locations)) /
-        2
+      lat = avgLat(
+        meetup._departure_locations.concat(meetup._suggested_locations)
+      )
+
+      lng = avgLng(
+        meetup._departure_locations.concat(meetup._suggested_locations)
+      )
     } catch (err) {
-      lat = avgLat(meetup._departure_locations)
-      lng = avgLng(meetup._departure_locations)
+      console.error(err)
     }
     const name = meetup.name
     const description = meetup.description

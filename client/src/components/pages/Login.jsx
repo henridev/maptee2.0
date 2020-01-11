@@ -15,8 +15,13 @@ export default function Login(props) {
 
   const updateStore = user => {
     console.log('SUCCES', user)
-    store.dispatch(set_user(user.user))
-    store.dispatch(set_meetups(user.user._meetups))
+    try {
+      store.dispatch(set_meetups(user.user._meetups))
+      store.dispatch(set_user(user.user))
+    } catch {
+      store.dispatch(set_meetups(user._meetups))
+      store.dispatch(set_user(user))
+    }
     console.log('dispatched', user)
     props.history.push('/userhome')
   }

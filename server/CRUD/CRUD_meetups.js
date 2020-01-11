@@ -16,6 +16,30 @@ const LocationPopulation = async populatedMeetup => {
   return populatedMeetup
 }
 
+const findAndReplaceCurrentLocation = async (meetupId, locationId, userId) => {
+  const meetupOne = await MeetUp.findById(meetupId).populate({
+    path: '_departure_locations',
+    model: 'Location',
+  })
+  const existingLocations = meetupOne._departure_locations.map(location => {
+    console.log(location._creator, 'heres', userId)
+    if (String(location._creator) === String(userId)) {
+      return location._id
+    }
+  })
+  console.log('here', existingLocations)
+  const meetupTwo = await MeetUp.findByIdAndUpdate(
+    meetupId,
+    { $pullAll: { _departure_locations: existingLocations } },
+    { new: true }
+  )
+  return await MeetUp.findByIdAndUpdate(
+    meetupId,
+    { $addToSet: { _departure_locations: locationId } },
+    { new: true }
+  )
+}
+
 const createLocation = async (isDepature, locationInfo, userId) => {
   let location = await Location.create({
     isDepature,
@@ -66,10 +90,10 @@ const updateMeetupLocation = async (
 ) => {
   let updatedMeetup
   if (isDeparture) {
-    updatedMeetup = await MeetUp.findByIdAndUpdate(
+    updatedMeetup = await findAndReplaceCurrentLocation(
       meetupId,
-      { $addToSet: { _departure_locations: locationId } },
-      { new: true }
+      locationId,
+      userId
     )
   } else {
     updatedMeetup = await MeetUp.findByIdAndUpdate(

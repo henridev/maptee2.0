@@ -9,7 +9,8 @@ import MyLocationIcon from '@material-ui/icons/MyLocation'
 import AddIcon from '@material-ui/icons/Add'
 import MeetupInfoWindows from './MeetupInfoWindows'
 import LocationSearchBox from './LocationSearchBox'
-import MeetupMarkers from './MeetupMarkers'
+import DepartureMeetupMarkers from './DepartureMeetupMarkers'
+import SuggestionMeetupMarkers from './SuggestionMeetupMarkers'
 import Button from '../sub_components/Button'
 const libararies = ['places']
 const GOOGLE_MAP_API_KEY = 'AIzaSyC4eD0NjYalr1zMt-mbfb7nEPiC39-xAOo'
@@ -39,9 +40,29 @@ export default function OverviewMap(props) {
   }
 
   const handleNewLocationClick = e => {
-    return isInput === 'departure'
-      ? api.addLocation(selectedmeetup._id, true, newLocation)
-      : api.addLocation(selectedmeetup._id, false, newLocation)
+    if (isInput === 'departure') {
+      api
+        .addLocation(selectedmeetup._id, true, newLocation)
+        .then(updatedMeetup => {
+          let meetups = store.getState().meetups
+          const update_index = meetups.findIndex(meetup => updatedMeetup)
+          meetups[update_index] = updatedMeetup
+          setselectedmeetup(updatedMeetup)
+          store.dispatch(set_meetups(meetups))
+        })
+        .catch(err => console.error(err))
+    } else {
+      api
+        .addLocation(selectedmeetup._id, false, newLocation)
+        .then(updatedMeetup => {
+          let meetups = store.getState().meetups
+          const update_index = meetups.findIndex(meetup => updatedMeetup)
+          meetups[update_index] = updatedMeetup
+          setselectedmeetup(updatedMeetup)
+          store.dispatch(set_meetups(meetups))
+        })
+        .catch(err => console.error(err))
+    }
   }
 
   useEffect(() => {
@@ -76,16 +97,25 @@ export default function OverviewMap(props) {
       )}
       {selectedmeetup !== null && (
         <>
-          <MeetupMarkers selectedmeetup={selectedmeetup} />
+          <DepartureMeetupMarkers
+            locations={selectedmeetup._departure_locations}
+          />
+          <SuggestionMeetupMarkers
+            locations={selectedmeetup._suggested_locations}
+          />
           <div className="map_buttons">
             <Button
               icon={<NearMeIcon />}
               onClick={() => setisInput(isInput ? false : 'departure')}
-            />
+            >
+              <span>departure</span>
+            </Button>
             <Button
               icon={<MyLocationIcon />}
               onClick={() => setisInput(isInput ? false : 'suggestion')}
-            />
+            >
+              <span>suggestion</span>
+            </Button>
           </div>
         </>
       )}

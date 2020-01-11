@@ -18,6 +18,7 @@ const sumLng = (accumulator, departureORsuggestion) =>
 const avgLat = locations => {
   const count = locations.length
   const sum = locations.reduce(sumLat, 0)
+  console.log(count, sum)
   return sum / count
 }
 

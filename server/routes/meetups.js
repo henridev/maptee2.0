@@ -38,8 +38,7 @@ router.post('/meetup', isLoggedIn, (req, res, next) => {
 router.patch('/meetup/:meetupId/', isLoggedIn, (req, res, next) => {
   const meetupId = req.params.meetupId
   // ?departure=true
-  const isDeparture = Boolean(req.query.departure)
-
+  const isDeparture = req.query.departure === 'true' ? true : false
   const locationInfo = {
     g_id: req.body.g_id,
     g_name: req.body.g_name,
