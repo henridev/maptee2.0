@@ -15,4 +15,16 @@ const sumLat = (accumulator, departureORsuggestion) =>
 const sumLng = (accumulator, departureORsuggestion) =>
   departureORsuggestion._location.coordinates[1] + accumulator
 
-export { getCurrentLocation, sumLat, sumLng }
+const avgLat = locations => {
+  const count = locations.length
+  const sum = locations.reduce(sumLat, 0)
+  return sum / count
+}
+
+const avgLng = locations => {
+  const count = locations.length
+  const sum = locations.reduce(sumLng, 0)
+  return sum / count
+}
+
+export { getCurrentLocation, sumLat, sumLng, avgLng, avgLat }

@@ -23,9 +23,18 @@ export default function FriendList(props) {
             />
             <h1 className="friend_name">{friend.username}</h1>
             <div className="friend_icon_wrapper">
-              <i className="fas fa-heart"></i>
-              <i className="fas fa-share"></i>
-              <i className="fas fa-users"></i>
+              <div className="friend_icons">
+                <i className="far fa-comment"></i>
+                <b>chat</b>
+              </div>
+              <div className="friend_icons">
+                <i className="fas fa-users"></i>
+                <b>invite</b>
+              </div>
+              <div className="friend_icons">
+                <i className="fas fa-user-times"></i>
+                <b>remove</b>
+              </div>
             </div>
           </div>
         )

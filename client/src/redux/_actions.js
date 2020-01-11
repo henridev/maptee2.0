@@ -5,6 +5,7 @@ export const SET_USER = 'SET_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_MEETUPS = 'SET_MEETUPS'
 export const ADD_MEETUP = 'ADD_MEETUP'
+export const REMOVE_REQUEST = 'REMOVE_REQUEST'
 
 // type prop defines type of action performed
 // Action creators -- create and return
@@ -36,5 +37,12 @@ export const add_meetup = meetup => {
   return {
     type: ADD_MEETUP,
     meetups: meetup,
+  }
+}
+
+export const remove_request = requestID => {
+  return {
+    type: REMOVE_REQUEST,
+    requestID: requestID,
   }
 }

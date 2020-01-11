@@ -1,6 +1,7 @@
 import Avatar from '@material-ui/core/Avatar'
 import React, { useState } from 'react'
 import { store } from '../../redux/_store'
+import { remove_request } from '../../redux/_actions'
 import IconButton from '@material-ui/core/IconButton'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import NotInterestedIcon from '@material-ui/icons/NotInterested'
@@ -11,12 +12,27 @@ export default function RequestList(props) {
   const [requests, setRequest] = useState(
     store.getState().user._friend_requests
   )
-  console.log('reqq', requests)
+
+  const handleRequest = (requestID, isAccept) => {
+    if (isAccept) {
+      api.acceptFriendRequest(requestID)
+    } else {
+      api.declineFriendRequest(requestID)
+    }
+    store.dispatch(remove_request(requestID))
+    const friend_requests = store.getState().user._friend_requests
+    setRequest(friend_requests)
+    props.setRequestCount(
+      friend_requests.filter(request => userId !== request._requester._id)
+        .length
+    )
+  }
+
   if (!requests) {
-    return null
+    return <div>currently no requests</div>
   }
   return (
-    <div>
+    <div className="request_list">
       {requests.map(request => {
         if (userId === request._requester._id) {
           return (
@@ -39,14 +55,14 @@ export default function RequestList(props) {
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={() => api.acceptFriendRequest(request._id)}
+                onClick={() => handleRequest(request._id, true)}
               >
                 <CheckCircleIcon />
               </IconButton>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={() => api.declineFriendRequest(request._id)}
+                onClick={() => handleRequest(request._id, false)}
               >
                 <NotInterestedIcon />
               </IconButton>

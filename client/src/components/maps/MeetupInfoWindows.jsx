@@ -1,7 +1,7 @@
 import React from 'react'
 import { InfoBox } from '@react-google-maps/api'
 import { store } from '../../redux/_store'
-import { sumLat, sumLng } from '../../utils/GeoFunctions'
+import { avgLat, avgLng } from '../../utils/GeoFunctions'
 
 export default function MeetupInfoWindows({
   positions,
@@ -29,14 +29,16 @@ export default function MeetupInfoWindows({
     let lng
     try {
       lat =
-        meetup._departure_locations.reduce(sumLat, 0) +
-        meetup._suggested_locations.reduce(sumLat, 0) / 2
+        (avgLat(meetup._departure_locations) +
+          avgLat(meetup._suggested_locations)) /
+        2
       lng =
-        meetup._departure_locations.reduce(sumLng, 0) +
-        meetup._suggested_locations.reduce(sumLng, 0) / 2
+        (avgLng(meetup._departure_locations) +
+          avgLng(meetup._suggested_locations)) /
+        2
     } catch (err) {
-      lat = meetup._departure_locations.reduce(sumLat, 0)
-      lng = meetup._departure_locations.reduce(sumLng, 0)
+      lat = avgLat(meetup._departure_locations)
+      lng = avgLng(meetup._departure_locations)
     }
     const name = meetup.name
     const description = meetup.description
