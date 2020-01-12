@@ -132,7 +132,7 @@ const checkUsernamePassword = async (username, password) => {
     if (bcrypt.compareSync(password, foundUser.password)) {
       foundUser = await userPopulation(foundUser)
       foundUser._meetups = maskPassword(foundUser)
-      console.log(foundUser)
+      console.log('here', foundUser)
       return foundUser
     }
   } catch (err) {

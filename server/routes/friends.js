@@ -48,4 +48,17 @@ router.patch('/decline/:requestid', (req, res) => {
     .catch(err => console.error(err))
 })
 
+router.patch('/delete/:friendID', (req, res) => {
+  const friendID = req.params.friendID
+  friends_crud
+    .deleteFriend(friendID, req.user._id)
+    .then(accepted => {
+      if (accepted) {
+        res.status(200)
+        res.json({ message: 'friend deleted' })
+      }
+    })
+    .catch(err => console.error(err))
+})
+
 module.exports = router

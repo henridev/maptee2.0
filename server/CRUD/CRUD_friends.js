@@ -65,6 +65,17 @@ const declineRequest = async requestId => {
   return true
 }
 
+const deleteFriend = async (friendID, userID) => {
+  console.log(friendID, userID, 'yeeeee')
+  const friendPromise = await User.findByIdAndUpdate(friendID, {
+    $pull: { _friends: userID },
+  })
+  return await User.findByIdAndUpdate(userID, {
+    $pull: { _friends: friendID },
+  })
+}
+
 module.exports.createAddRequest = createAddRequest
 module.exports.acceptRequest = acceptRequest
 module.exports.declineRequest = declineRequest
+module.exports.deleteFriend = deleteFriend

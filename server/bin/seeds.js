@@ -9,19 +9,77 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') })
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
+const FriendRequest = require('../models/FriendRequest')
+const friends_CRUD = require('../CRUD/CRUD_friends')
 
 const bcryptSalt = 10
 
 require('../configs/database')
 
-let users = [
+const users = [
   {
     username: 'alice',
     password: bcrypt.hashSync('alice', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'alice@mail.com',
+    firstName: 'alice',
+    lastName: 'cooper',
+    avatar_url: 'https://i.pravatar.cc/250?img=5',
   },
   {
     username: 'bob',
     password: bcrypt.hashSync('bob', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'bob@mail.com',
+    firstName: 'bob',
+    lastName: 'cooper',
+    avatar_url: 'https://i.pravatar.cc/250?img=4',
+  },
+  {
+    username: 'john',
+    password: bcrypt.hashSync('john', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'john@mail.com',
+    firstName: 'john',
+    lastName: 'cooper',
+    avatar_url: 'https://i.pravatar.cc/250?img=3',
+  },
+  {
+    username: 'henri',
+    password: bcrypt.hashSync('henri', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'henri@mail.com',
+    firstName: 'henri',
+    lastName: 'de bel',
+    avatar_url: 'https://i.pravatar.cc/250?img=7',
+  },
+  {
+    username: 'lucien',
+    password: bcrypt.hashSync('lucien', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'lucien@mail.com',
+    firstName: 'lucien',
+    lastName: 'franco',
+    avatar_url: 'https://i.pravatar.cc/250?img=11',
+  },
+  {
+    username: 'lucie',
+    password: bcrypt.hashSync('lucie', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'lucie@mail.com',
+    firstName: 'lucie',
+    lastName: 'franco',
+    avatar_url: 'https://i.pravatar.cc/250?img=9',
+  },
+  {
+    username: 'louis',
+    password: bcrypt.hashSync('louis', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'louis@mail.com',
+    firstName: 'louis',
+    lastName: 'de bel',
+    avatar_url: 'https://i.pravatar.cc/250?img=12',
+  },
+  {
+    username: 'piet',
+    password: bcrypt.hashSync('piet', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'piet@mail.com',
+    firstName: 'piet',
+    lastName: 'de bel',
+    avatar_url: 'https://i.pravatar.cc/250?img=8',
   },
 ]
 
@@ -31,9 +89,28 @@ User.deleteMany()
   })
   .then(usersCreated => {
     console.log(`${usersCreated.length} users created with the following id:`)
-    console.log(usersCreated.map(u => u._id))
+    const userIDS = usersCreated.map(u => u._id)
+    console.log(userIDS)
+    let requests = userIDS.map((ID, i) => {
+      if (i < userIDS.length) {
+        return {
+          _requester: ID,
+          _recipient: userIDS[i + 1],
+          status: false,
+        }
+      }
+    })
+    console.log(requests)
+    return FriendRequest.create(requests.slice(0, -1))
   })
-  .then(() => {
+  .then(createdRequests => {
+    const requestAcceptPromises = createdRequests.map(u =>
+      friends_CRUD.acceptRequest(u._id)
+    )
+    return Promise.all(requestAcceptPromises)
+  })
+  .then(values => {
+    console.log(values, ' requests accepted')
     // Close properly the connection to Mongoose
     mongoose.disconnect()
   })

@@ -32,4 +32,14 @@ export default {
   declineFriendRequest(requestId) {
     return service.patch(`/decline/${requestId}`)
   },
+  deleteFriend(friendID) {
+    return service
+      .patch(`/delete/${friendID}`)
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  },
 }

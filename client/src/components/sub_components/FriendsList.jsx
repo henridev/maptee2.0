@@ -1,12 +1,21 @@
 import Avatar from '@material-ui/core/Avatar'
 import React, { useState } from 'react'
 import { store } from '../../redux/_store'
-import IconButton from '@material-ui/core/IconButton'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import NotInterestedIcon from '@material-ui/icons/NotInterested'
+import api from '../../apis/friends_api'
 
 export default function FriendList(props) {
   const [friends, setFriends] = useState(store.getState().user._friends)
+
+  const handleDelete = friendID => {
+    api
+      .deleteFriend(friendID)
+      .then(setFriends(friends.filter(friend => friend._id !== friendID)))
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
+  const showMeetups = () => {}
 
   if (!friends) {
     return null
@@ -27,11 +36,14 @@ export default function FriendList(props) {
                 <i className="far fa-comment"></i>
                 <b>chat</b>
               </div>
-              <div className="friend_icons">
+              <div className="friend_icons" onClick={() => showMeetups()}>
                 <i className="fas fa-users"></i>
                 <b>invite</b>
               </div>
-              <div className="friend_icons">
+              <div
+                className="friend_icons"
+                onClick={() => handleDelete(friend._id)}
+              >
                 <i className="fas fa-user-times"></i>
                 <b>remove</b>
               </div>
