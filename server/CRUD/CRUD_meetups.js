@@ -22,12 +22,12 @@ const findAndReplaceCurrentLocation = async (meetupId, locationId, userId) => {
     model: 'Location',
   })
   const existingLocations = meetupOne._departure_locations.map(location => {
-    console.log(location._creator, 'heres', userId)
+    // console.log(location._creator, 'heres', userId)
     if (String(location._creator) === String(userId)) {
       return location._id
     }
   })
-  console.log('here', existingLocations)
+  // console.log('here', existingLocations)
   const meetupTwo = await MeetUp.findByIdAndUpdate(
     meetupId,
     { $pullAll: { _departure_locations: existingLocations } },

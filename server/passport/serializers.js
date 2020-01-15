@@ -5,7 +5,7 @@ const User = require('../models/User')
 // so with each new req we can use it to
 // attach user to the req object
 passport.serializeUser((loggedInUser, done) => {
-  console.log('serializing logged in user', loggedInUser)
+  // console.log('serializing logged in user', loggedInUser)
   done(null, loggedInUser._id)
 })
 
@@ -15,7 +15,7 @@ passport.deserializeUser((userIdFromSession, done) => {
   // now and attach the user to req.user
   User.findById(userIdFromSession)
     .then(userDocument => {
-      console.log(userDocument, 'deserialized user to attach to request object')
+      // console.log(userDocument, 'deserialized user to attach to request object')
       userDocument.password = null
       done(null, userDocument)
     })

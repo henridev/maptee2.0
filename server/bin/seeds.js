@@ -81,6 +81,14 @@ const users = [
     lastName: 'de bel',
     avatar_url: 'https://i.pravatar.cc/250?img=8',
   },
+  {
+    username: 'ash',
+    password: bcrypt.hashSync('ash', bcrypt.genSaltSync(bcryptSalt)),
+    email: 'ash@mail.com',
+    firstName: 'ash',
+    lastName: 'de bel',
+    avatar_url: 'https://i.pravatar.cc/250?img=20',
+  },
 ]
 
 User.deleteMany()
@@ -91,13 +99,17 @@ User.deleteMany()
     console.log(`${usersCreated.length} users created with the following id:`)
     const userIDS = usersCreated.map(u => u._id)
     console.log(userIDS)
-    let requests = userIDS.map((ID, i) => {
+    let requests = []
+    userIDS.map((ID, i) => {
       if (i < userIDS.length) {
-        return {
-          _requester: ID,
-          _recipient: userIDS[i + 1],
-          status: false,
-        }
+        const otherUsers = userIDS.filter(id => id !== ID)
+        const request_arr = otherUsers.map(id => {
+          return requests.push({
+            _requester: ID,
+            _recipient: id,
+            status: false,
+          })
+        })
       }
     })
     console.log(requests)

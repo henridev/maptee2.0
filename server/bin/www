@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-
 let app = require('../app')
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
+const { handleConnection } = require('./chat_socket')
+
+io.on('connection', handleConnection)
 
 server.on('error', error => {
   if (error.syscall !== 'listen') {
@@ -25,12 +27,9 @@ server.on('error', error => {
 })
 
 if (!process.env.PORT) process.env.PORT = 5000
-io.on('connection', socket => {
-  console.log('user connected')
-})
 
 server.listen(process.env.PORT, () => {
   console.log(`Listening on http://localhost:${process.env.PORT}`)
 })
 
-module.exports = server
+// module.exports = { server, io }
