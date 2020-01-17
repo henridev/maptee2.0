@@ -2,6 +2,7 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 const friends_crud = require('../CRUD/CRUD_friends')
+const chat_crud = require('../CRUD/CRUD_chat')
 const uploader = require('../configs/cloudinary')
 
 // signup up localy
@@ -26,11 +27,15 @@ router.patch('/accept/:requestid', (req, res) => {
   const requestid = req.params.requestid
   friends_crud
     .acceptRequest(requestid)
-    .then(accepted => {
-      if (accepted) {
+    .then(({ recipientId, requesterId }) => {
+      if (recipientId) {
         res.status(200)
         res.json({ message: 'request accepted' })
       }
+      return chat_crud.createChat({ recipientId, requesterId })
+    })
+    .then(() => {
+      console.log('chat created')
     })
     .catch(err => console.error(err))
 })
@@ -57,6 +62,17 @@ router.patch('/delete/:friendID', (req, res) => {
         res.status(200)
         res.json({ message: 'friend deleted' })
       }
+    })
+    .catch(err => console.error(err))
+})
+
+router.get('/chats', (req, res) => {
+  const userId = req.user._id
+  chat_crud
+    .getChats(userId)
+    .then(chats => {
+      res.status(200)
+      res.json(chats)
     })
     .catch(err => console.error(err))
 })

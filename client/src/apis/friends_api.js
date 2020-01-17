@@ -42,4 +42,10 @@ export default {
         console.error(err)
       })
   },
+  getChats() {
+    return service
+      .get('/chats')
+      .then(res => res.data)
+      .catch(err => console.error(err))
+  },
 }

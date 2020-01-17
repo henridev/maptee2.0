@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const FriendRequest = require('../models/FriendRequest')
 const friends_CRUD = require('../CRUD/CRUD_friends')
+const chat_CRUD = require('../CRUD/CRUD_chat')
 
 const bcryptSalt = 10
 
@@ -121,9 +122,13 @@ User.deleteMany()
     )
     return Promise.all(requestAcceptPromises)
   })
-  .then(values => {
-    console.log(values, ' requests accepted')
+  .then(userIds => {
+    const chatCreationPromises = userIds.map(ids => chat_CRUD.createChat(ids))
+    return Promise.all(chatCreationPromises)
     // Close properly the connection to Mongoose
+  })
+  .then(createdChats => {
+    console.log('disconnecting')
     mongoose.disconnect()
   })
   .catch(err => {

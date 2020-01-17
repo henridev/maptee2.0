@@ -7,7 +7,7 @@ import MeetupList from './pages/MeetupList'
 import FriendsPage from './pages/FriendsPage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import Chat from './sub_components/Chat'
+import ChatPage from './pages/ChatPage'
 import { store, startState } from '../redux/_store'
 import { set_user, set_meetups } from '../redux/_actions'
 import api from '../apis/auth_api'
@@ -48,7 +48,7 @@ export default function App(props) {
         />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/test" component={Chat}></Route>
+        <Route path="/chatpage" component={ChatPage}></Route>
         <Route render={() => <h2>404</h2>} />
       </Switch>
     </div>

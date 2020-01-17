@@ -23,6 +23,7 @@ const schema = new Schema(
     _meetup_requests: [
       { type: mongoose.Schema.Types.ObjectId, ref: 'MeetupRequest' },
     ],
+    _chats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
   },
   {
     timestamps: {

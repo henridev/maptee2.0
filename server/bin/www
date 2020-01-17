@@ -4,7 +4,7 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const { handleConnection } = require('./chat_socket')
 
-io.on('connection', handleConnection)
+io.on('connection', socket => handleConnection(socket, io))
 
 server.on('error', error => {
   if (error.syscall !== 'listen') {

@@ -109,6 +109,8 @@ export default function UserHomeNavigator(props) {
     props.history.push('/')
   }
 
+  const handleRoute = routename => props.history.push(`/${routename}`)
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -168,10 +170,7 @@ export default function UserHomeNavigator(props) {
                       color={
                         props.activeIndex === index ? 'secondary' : 'disabled'
                       }
-                      onClick={e => {
-                        console.log(e)
-                        props.history.push('/userhome')
-                      }}
+                      onClick={() => handleRoute('userhome')}
                     />
                   ) : null}
                   {index === 1 ? (
@@ -179,10 +178,7 @@ export default function UserHomeNavigator(props) {
                       color={
                         props.activeIndex === index ? 'secondary' : 'disabled'
                       }
-                      onClick={e => {
-                        console.log(e)
-                        props.history.push('/meetuplist')
-                      }}
+                      onClick={() => handleRoute('meetuplist')}
                     />
                   ) : null}
 
@@ -201,9 +197,7 @@ export default function UserHomeNavigator(props) {
                       color={
                         props.activeIndex === index ? 'secondary' : 'disabled'
                       }
-                      onClick={() => {
-                        props.history.push('/friendspage')
-                      }}
+                      onClick={() => handleRoute('friendspage')}
                     />
                   ) : null}
                   {index === 4 ? (
@@ -211,6 +205,7 @@ export default function UserHomeNavigator(props) {
                       color={
                         props.activeIndex === index ? 'secondary' : 'disabled'
                       }
+                      onClick={() => handleRoute('chatpage')}
                     />
                   ) : null}
                 </ListItemIcon>

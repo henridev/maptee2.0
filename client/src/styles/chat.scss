@@ -1,0 +1,11 @@
+.chat_wrapper {
+  position: relative;
+  height: 100vh;
+  top: 56px;
+}
+
+@media (min-width: 600px) {
+  .chat_wrapper {
+    top: 64px;
+  }
+}

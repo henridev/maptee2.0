@@ -3,8 +3,6 @@ import UserHomeNavigator from '../sub_components/UserHomeNavigator'
 import Map from '../maps/OverviewMap'
 import MeetupForm from '../sub_components/MeetupForm'
 
-import { set_user, set_meetups } from '../../redux/_actions'
-
 export default function UserWelcome(props) {
   const [showMeetupForm, setshowMeetupForm] = useState(false)
 

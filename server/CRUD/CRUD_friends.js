@@ -45,7 +45,7 @@ const acceptRequest = async requestId => {
     },
     { new: true }
   )
-  return true
+  return { recipientId, requesterId }
 }
 
 const declineRequest = async requestId => {
