@@ -123,7 +123,23 @@ User.deleteMany()
     return Promise.all(requestAcceptPromises)
   })
   .then(userIds => {
-    const chatCreationPromises = userIds.map(ids => chat_CRUD.createChat(ids))
+    let deletedOnce = new Array()
+    const filteredIds = userIds.filter(({ recipientId, requesterId }, i) => {
+      if (i % users.length === 0) {
+        deletedOnce = new Array()
+      }
+      if (deletedOnce.includes(String(requesterId))) {
+        return true
+      }
+      if (!deletedOnce.includes(String(recipientId))) {
+        deletedOnce.push(String(recipientId))
+        return false
+      }
+    })
+    console.log(filteredIds, userIds)
+    const chatCreationPromises = filteredIds.map(ids => {
+      return chat_CRUD.createChat(ids)
+    })
     return Promise.all(chatCreationPromises)
     // Close properly the connection to Mongoose
   })

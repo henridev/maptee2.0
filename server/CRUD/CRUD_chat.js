@@ -20,7 +20,11 @@ const createChat = async userIds => {
 const getChats = async userId => {
   const populateQuery = [
     { path: '_messages' },
-    { path: '_users', select: '_id avatar_url username firstName lastName' },
+    {
+      path: '_users',
+      match: { _id: { $ne: userId } }, // only return user that are not you
+      select: '_id avatar_url username firstName lastName',
+    },
   ]
   return await User.findById(userId)
     .select('_chats')

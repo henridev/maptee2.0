@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import UserHomeNavigator from '../sub_components/UserHomeNavigator'
+import FriendAvatarList from '../sub_components/chat/FriendAvatarList'
 import io from 'socket.io-client'
 import { store } from '../../redux/_store'
 import api from '../../apis/friends_api'
@@ -23,7 +24,7 @@ export default function ChatPage(props) {
   useEffect(() => {
     api
       .getChats()
-      .then(foundChats => setChats(foundChats))
+      .then(foundChats => setChats(foundChats._chats))
       .catch(err => {
         console.log(err)
       })
@@ -54,9 +55,18 @@ export default function ChatPage(props) {
   return (
     <UserHomeNavigator activeIndex={4} history={props.history}>
       <div className="chat_wrapper">
-        <div className="message_box">{renderMessages()}</div>
-        <input onChange={handleChange} placeholder="insert message here" />
-        <button onClick={handleMessageEmit}>sent message</button>
+        <div className="current_chat">
+          <div className="message_box">{renderMessages()}</div>
+          <input
+            className="message_input"
+            onChange={handleChange}
+            placeholder="insert message here"
+          />
+          <button className="message_send_btn" onClick={handleMessageEmit}>
+            sent message
+          </button>
+        </div>
+        {chats && <FriendAvatarList chats={chats} className="friend_list" />}
       </div>
     </UserHomeNavigator>
   )

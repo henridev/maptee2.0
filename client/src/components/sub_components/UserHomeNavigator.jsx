@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     width: '100%',
     paddingRight: 20,
-    overflowY: 'scroll',
+    overflowY: 'hidden',
     boxSizing: 'content-box',
   },
   appBar: {
