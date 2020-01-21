@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import UserHomeNavigator from '../sub_components/UserHomeNavigator'
 import FriendAvatarList from '../sub_components/chat/FriendAvatarList'
+import CurrentChat from '../sub_components/chat/CurrentChat'
+
 import io from 'socket.io-client'
 import { store } from '../../redux/_store'
 import api from '../../apis/friends_api'
@@ -20,19 +22,29 @@ export default function ChatPage(props) {
   const [input, setInput] = useState('')
   const [chats, setChats] = useState(null)
   const [messagesInfo, setMessagesInfo] = useState([])
+  const [currentChat, setCurrentChat] = useState(null)
 
+  // get the chat history
   useEffect(() => {
     api
       .getChats()
-      .then(foundChats => setChats(foundChats._chats))
+      .then(sortedFoundChats => {
+        setChats(sortedFoundChats)
+        setCurrentChat(sortedFoundChats[0])
+      })
       .catch(err => {
         console.log(err)
       })
-    socket.on('message received', msg => {
-      console.log(msg)
-      setMessagesInfo([...messagesInfo, msg])
-    })
   }, [])
+
+  // when new message is received event listener should be changed to use latest
+  // updated state and cleanup the event listener otherwise the app will slow down
+  // really quickly
+  const handleMessageReception = msg => setMessagesInfo([...messagesInfo, msg])
+  useEffect(() => {
+    socket.on('message received', handleMessageReception)
+    return () => socket.off('message received')
+  }, [handleMessageReception])
 
   const handleMessageEmit = () => {
     socket.emit('message sent', { message: input, user: user })
@@ -40,33 +52,22 @@ export default function ChatPage(props) {
 
   const handleChange = e => setInput(e.target.value)
 
-  const renderMessages = () => {
-    if (messagesInfo.length === 0) return null
-    return messagesInfo.map((info, i) => {
-      return (
-        <div key={i} data-user={info.user.id}>
-          <div>{info.message}</div>
-          <div>{info.user.username}</div>
-        </div>
-      )
-    })
-  }
-
   return (
     <UserHomeNavigator activeIndex={4} history={props.history}>
       <div className="chat_wrapper">
-        <div className="current_chat">
-          <div className="message_box">{renderMessages()}</div>
-          <input
-            className="message_input"
-            onChange={handleChange}
-            placeholder="insert message here"
+        <CurrentChat
+          handleChange={handleChange}
+          handleMessageEmit={handleMessageEmit}
+          messagesInfo={messagesInfo}
+          userID={user.id}
+        ></CurrentChat>
+        {chats && currentChat && (
+          <FriendAvatarList
+            chats={chats.filter(chat => !chat.isGroupChat)}
+            currentChatID={currentChat._id}
+            className="friend_list"
           />
-          <button className="message_send_btn" onClick={handleMessageEmit}>
-            sent message
-          </button>
-        </div>
-        {chats && <FriendAvatarList chats={chats} className="friend_list" />}
+        )}
       </div>
     </UserHomeNavigator>
   )

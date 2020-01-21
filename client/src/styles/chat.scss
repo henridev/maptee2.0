@@ -56,6 +56,65 @@
   margin: 10px;
 }
 
+.avatar_list .active_chat_avatar > span {
+  background-color: #fed65f7a;
+}
+
+.avatar_list > span {
+  margin: 2%;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.avatar_list {
+  padding-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #dcdcdc8c;
+}
+
+.active_chat_avatar > img {
+  // background-color: black;
+  -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+}
+
+.current_user_box {
+  display: flex;
+  padding-left: 5%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border: 1px solid black;
+}
+
+.friend_box {
+  display: flex;
+  padding-left: 5%;
+  align-items: flex-end;
+  justify-content: flex-end;
+  border: 1px solid black;
+}
+
+.current_user_box > div {
+  align-self: flex-start;
+  justify-self: flex-start;
+}
+.current_user_box > div {
+  align-self: flex-end;
+  justify-self: flex-end;
+}
+
+.right {
+  justify-content: flex-end !important;
+}
+.left {
+  justify-content: flex-start !important;
+}
+
+.chat_bubble_container {
+  grid-area: box;
+}
+
 @media (min-width: 600px) {
   .chat_wrapper {
     top: 64px;

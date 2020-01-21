@@ -26,12 +26,29 @@ const getChats = async userId => {
       select: '_id avatar_url username firstName lastName',
     },
   ]
-  return await User.findById(userId)
+  const chatObject = await User.findById(userId)
     .select('_chats')
     .populate({
       path: '_chats',
       populate: populateQuery,
     })
+  const sortedChats = chatObject._chats.sort((a, b) => {
+    // Turn your strings into dates, and then subtract them
+    // to get a value that is either negative, positive, or zero.
+    // if b date is > 0 put it up front --> most recent first
+    const updateB = new Date(b.updated_at)
+    const updateA = new Date(a.updated_at)
+    if (updateB > updateA) {
+      return 1
+    }
+    if (updateB < updateA) {
+      return -1
+    }
+    if (updateB === updateA) {
+      return 0
+    }
+  })
+  return sortedChats
 }
 
 module.exports.createChat = createChat

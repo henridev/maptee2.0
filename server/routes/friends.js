@@ -70,9 +70,9 @@ router.get('/chats', (req, res) => {
   const userId = req.user._id
   chat_crud
     .getChats(userId)
-    .then(chats => {
+    .then(sortedChats => {
       res.status(200)
-      res.json(chats)
+      res.json(sortedChats)
     })
     .catch(err => console.error(err))
 })
