@@ -80,7 +80,19 @@ const createMeetup = async (
   // newMeetup = await newMeetup.populate('_departure_locations')
 }
 
-const addMeetupToUser = async meetupId => {}
+const addMeetupToUser = async (meetupId, userID) => {
+  await User.findByIdAndUpdate(
+    userID,
+    { $addToSet: { _meetups: meetupId } },
+    { new: true }
+  )
+  await MeetUp.findByIdAndUpdate(
+    meetupId,
+    { $addToSet: { _users: userID } },
+    { new: true }
+  )
+  return true
+}
 
 const updateMeetupLocation = async (
   meetupId,
@@ -113,3 +125,4 @@ const updateMeetupLocation = async (
 module.exports.createLocation = createLocation
 module.exports.createMeetup = createMeetup
 module.exports.updateMeetupLocation = updateMeetupLocation
+module.exports.addMeetupToUser = addMeetupToUser

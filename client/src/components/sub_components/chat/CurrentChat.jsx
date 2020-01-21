@@ -39,7 +39,9 @@ const ChatLayout = props => {
   ))
   return (
     <div className={`${classes.container} current_chat`}>
-      <div>{props.messagesInfo.length > 0 && chatBubbles}</div>
+      <div className="chat_bubble_container">
+        {props.messagesInfo.length > 0 && chatBubbles}
+      </div>
       <input
         className="message_input"
         onChange={props.handleChange}

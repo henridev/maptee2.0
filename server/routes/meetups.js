@@ -63,4 +63,19 @@ router.patch('/meetup/:meetupId/', isLoggedIn, (req, res, next) => {
     .catch(err => console.error(err))
 })
 
+router.patch(
+  '/meetup/users/:meetupId/:userId',
+  isLoggedIn,
+  (req, res, next) => {
+    const meetupId = req.params.meetupId
+    const userID = req.params.userId
+    meetup_crud
+      .addMeetupToUser(meetupId, userID)
+      .then(found => {
+        return res.json({ found })
+      })
+      .catch(err => console.error(err))
+  }
+)
+
 module.exports = router
