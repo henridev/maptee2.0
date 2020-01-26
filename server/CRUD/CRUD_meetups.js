@@ -1,6 +1,7 @@
 const MeetUp = require('../models/MeetUp')
 const Location = require('../models/Location')
 const User = require('../models/User')
+const MeetupRequest = require('../models/MeetupRequest')
 
 const LocationPopulation = async populatedMeetup => {
   populatedMeetup = await MeetUp.populate(populatedMeetup, {
@@ -81,17 +82,19 @@ const createMeetup = async (
 }
 
 const addMeetupToUser = async (meetupId, userID) => {
-  await User.findByIdAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     userID,
     { $addToSet: { _meetups: meetupId } },
     { new: true }
   )
-  await MeetUp.findByIdAndUpdate(
+  const updatedMeetup = await MeetUp.findByIdAndUpdate(
     meetupId,
     { $addToSet: { _users: userID } },
     { new: true }
   )
-  return true
+  return {
+    msg: `user ${updatedUser.username} added to meetup ${updatedMeetup.name}`,
+  }
 }
 
 const updateMeetupLocation = async (
@@ -122,7 +125,52 @@ const updateMeetupLocation = async (
   return await LocationPopulation(updatedMeetup)
 }
 
-module.exports.createLocation = createLocation
-module.exports.createMeetup = createMeetup
-module.exports.updateMeetupLocation = updateMeetupLocation
-module.exports.addMeetupToUser = addMeetupToUser
+const sendMeetupRequest = async (meetupID, FriendID, userID) => {
+  const createdMeetupRequest = await MeetupRequest.create({
+    _requester: userID,
+    _recipient: FriendID,
+    _meetup: meetupID,
+  })
+  return createdMeetupRequest
+}
+
+const getMeetupRequests = async userID => {
+  const FoundMeetupInvites = await MeetupRequest.find({
+    _recipient: userID,
+  })
+    .populate({
+      path: '_requester',
+      select: 'username _id firstname lastname avatar_url',
+    })
+    .populate({
+      path: '_meetup',
+      select: 'name description meetup_date',
+    })
+  return FoundMeetupInvites
+}
+
+const acceptMeetupRequest = async meetupRequestID => {
+  const FoundMeetupRequest = await MeetupRequest.findById(meetupRequestID)
+  const recipientId = FoundMeetupRequest._recipient
+  const meetupId = FoundMeetupRequest._meetup
+  const addedInfo = await addMeetupToUser(meetupId, recipientId)
+  return addedInfo
+}
+
+const declineMeetupRequest = async meetupRequestID => {
+  const deletedMeetupRequest = await MeetupRequest.deleteOne({
+    _id: meetupRequestID,
+  })
+  return { msg: 'invitation declined' }
+}
+
+module.exports = {
+  createLocation: createLocation,
+  createMeetup: createMeetup,
+  updateMeetupLocation: updateMeetupLocation,
+  addMeetupToUser: addMeetupToUser,
+  declineMeetupRequest: declineMeetupRequest,
+  acceptMeetupRequest: acceptMeetupRequest,
+  sendMeetupRequest: sendMeetupRequest,
+  getMeetupRequests: getMeetupRequests,
+}

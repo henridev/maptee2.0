@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom'
 
 export default function Login(props) {
   const { formValues, getInputProps } = useForm({
-    username: '',
-    password: '',
+    username: 'piet',
+    password: 'piet',
   })
 
   const updateStore = user => {

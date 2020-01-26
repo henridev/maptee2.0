@@ -27,9 +27,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function MiddleDividers({ meetup }) {
+export default function MeetupCard({ meetup }) {
   const classes = useStyles()
-
+  console.log(meetup)
   return (
     <div className={classes.root}>
       <div className={classes.section1}>
@@ -40,9 +40,7 @@ export default function MiddleDividers({ meetup }) {
             </Typography>
           </Grid>
           <Grid item>
-            <Typography gutterBottom variant="h6">
-              $4.50
-            </Typography>
+            <Typography gutterBottom variant="h6"></Typography>
           </Grid>
         </Grid>
         <Typography color="textSecondary" variant="body2">
@@ -54,7 +52,7 @@ export default function MiddleDividers({ meetup }) {
         <Typography gutterBottom variant="body1">
           Friends joining
         </Typography>
-        <div>
+        <div style={{ display: 'flex' }}>
           {meetup._users.map(user => {
             const imgurl = user.avatar_url
             return <Avatar alt="user" src={imgurl} />

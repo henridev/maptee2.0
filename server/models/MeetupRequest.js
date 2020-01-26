@@ -12,10 +12,6 @@ const MeetupRequestSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  status: {
-    type: Boolean,
-    required: true,
-  },
   _meetup: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'MeetUp',

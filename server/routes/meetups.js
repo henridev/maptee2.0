@@ -1,6 +1,15 @@
 const express = require('express')
 const { isLoggedIn } = require('../middlewares')
-const meetup_crud = require('../CRUD/CRUD_meetups')
+const {
+  createLocation,
+  createMeetup,
+  updateMeetupLocation,
+  addMeetupToUser,
+  declineMeetupRequest,
+  acceptMeetupRequest,
+  sendMeetupRequest,
+  getMeetupRequests,
+} = require('../CRUD/CRUD_meetups')
 const router = express.Router()
 
 router.post('/meetup', isLoggedIn, (req, res, next) => {
@@ -15,11 +24,10 @@ router.post('/meetup', isLoggedIn, (req, res, next) => {
   }
   // should be either
   // current or searched location
-  meetup_crud
-    .createLocation(true, locationInfo, req.user._id)
+  createLocation(true, locationInfo, req.user._id)
     .then(newLocation => {
       const departureId = newLocation._id
-      return meetup_crud.createMeetup(
+      return createMeetup(
         req.user._id,
         meetup_date,
         name,
@@ -46,11 +54,10 @@ router.patch('/meetup/:meetupId/', isLoggedIn, (req, res, next) => {
     lng: req.body.lng,
   }
 
-  meetup_crud
-    .createLocation(isDeparture, locationInfo, req.user._id)
+  createLocation(isDeparture, locationInfo, req.user._id)
     .then(newLocation => {
       const locationId = newLocation._id
-      return meetup_crud.updateMeetupLocation(
+      return updateMeetupLocation(
         meetupId,
         locationId,
         req.user._id,
@@ -64,18 +71,27 @@ router.patch('/meetup/:meetupId/', isLoggedIn, (req, res, next) => {
 })
 
 router.patch(
-  '/meetup/users/:meetupId/:userId',
+  '/meetup/users/:meetupID/:friendID',
   isLoggedIn,
   (req, res, next) => {
-    const meetupId = req.params.meetupId
-    const userID = req.params.userId
-    meetup_crud
-      .addMeetupToUser(meetupId, userID)
-      .then(found => {
-        return res.json({ found })
+    const meetupId = req.params.meetupID
+    const friendID = req.params.friendID
+    const userID = req.user._id
+    sendMeetupRequest(meetupId, friendID, userID)
+      .then(createdMeetupRequest => {
+        return res.json({ msg: 'invitation send' })
       })
       .catch(err => console.error(err))
   }
 )
+
+router.get('/meetupInvites/:userId', isLoggedIn, (req, res, next) => {
+  const userId = req.params.userId
+  getMeetupRequests(userId)
+    .then(meetupInvites => {
+      return res.json({ meetupInvites: meetupInvites })
+    })
+    .catch(err => console.error(err))
+})
 
 module.exports = router

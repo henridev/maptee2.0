@@ -44,9 +44,16 @@ export default {
       .catch(errHandler)
   },
 
-  addUser(meetupId, userId, body = null) {
+  sendMeetupInvite(meetupId, userId, body = null) {
     return service
-      .patch(`/meetup/user/${meetupId}/${userId}`, body)
+      .patch(`/meetup/users/${meetupId}/${userId}`, body)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
+
+  getMeetupInvites(userId) {
+    return service
+      .get(`/meetupInvites/${userId}`)
       .then(res => res.data)
       .catch(errHandler)
   },

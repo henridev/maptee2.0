@@ -44,6 +44,13 @@ export default function AvatarList(props) {
             horizontal: 'right',
           }}
           variant="dot"
+          onClick={() => {
+            if (_id !== props.currentChatID) {
+              props.leaveRoom(props.currentChatID)
+              props.setCurrentChatID(_id)
+              props.joinRoom(_id)
+            }
+          }}
         >
           <Avatar
             className={

@@ -1,11 +1,11 @@
 import Avatar from '@material-ui/core/Avatar'
 import React, { useState } from 'react'
-import { store } from '../../redux/_store'
-import { remove_request } from '../../redux/_actions'
+import { store } from '../../../redux/_store'
+import { remove_request } from '../../../redux/_actions'
 import IconButton from '@material-ui/core/IconButton'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import NotInterestedIcon from '@material-ui/icons/NotInterested'
-import api from '../../apis/friends_api'
+import api from '../../../apis/friends_api'
 
 export default function RequestList(props) {
   const userId = store.getState().user._id

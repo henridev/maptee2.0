@@ -1,13 +1,17 @@
-const handleConnection = (socket, io) => {
+const handleChatConnection = (socket, chat) => {
   console.log('a user connected')
-  socket.on('message sent', info => {
+  chat.on('join chat', chatId => {
+    socket.join(chatId)
+    chat.to(chatId).emit('user joined room')
+  })
+  chat.on('message sent', info => {
     console.log(info)
-    io.emit('message received', info)
+    chat.emit('message received', info)
   })
 
-  socket.on('disconnect', () => {
+  chat.on('disconnect', () => {
     console.log('user disconnected')
   })
 }
 
-module.exports = { handleConnection }
+module.exports = { handleChatConnection }

@@ -5,7 +5,7 @@ import api from '../../apis/friends_api'
 import MeetupDialog from './MeetupDialog'
 export default function FriendList(props) {
   const [friends, setFriends] = useState(store.getState().user._friends)
-  const [open, setOpen] = React.useState(false)
+  const [inviteInfo, SetInviteInfo] = useState({ open: false, friendId: '' })
   const handleDelete = friendID => {
     api
       .deleteFriend(friendID)
@@ -15,8 +15,11 @@ export default function FriendList(props) {
       })
   }
   const handleClickInvite = friendId => {
-    setOpen(!open)
+    console.log(friendId)
+    SetInviteInfo({ open: true, friendId: friendId })
   }
+
+  const handleClose = () => SetInviteInfo({ open: false, friendId: '' })
 
   if (!friends) {
     return null
@@ -24,7 +27,12 @@ export default function FriendList(props) {
 
   return (
     <div className="friendlist">
-      <MeetupDialog open={open} />
+      <MeetupDialog
+        open={inviteInfo.open}
+        friendID={inviteInfo.friendId}
+        SetInviteInfo={SetInviteInfo}
+        handleClose={handleClose}
+      />
       {friends.map(friend => {
         return (
           <div className="friend_wrapper">

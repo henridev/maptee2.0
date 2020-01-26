@@ -2,15 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react'
 import UserHomeNavigator from '../sub_components/UserHomeNavigator'
 import FriendAvatarList from '../sub_components/chat/FriendAvatarList'
 import CurrentChat from '../sub_components/chat/CurrentChat'
-
 import io from 'socket.io-client'
 import { store } from '../../redux/_store'
 import api from '../../apis/friends_api'
 
-const socket = io(
+const chat = io.connect(
   process.env.NODE_ENV === 'production'
-    ? `/`
-    : `http://${window.location.hostname}:5000`
+    ? `/chat`
+    : `http://${window.location.hostname}:5000/chat`
 )
 
 export default function ChatPage(props) {
@@ -42,12 +41,13 @@ export default function ChatPage(props) {
   // really quickly
   const handleMessageReception = msg => setMessagesInfo([...messagesInfo, msg])
   useEffect(() => {
-    socket.on('message received', handleMessageReception)
-    return () => socket.off('message received')
+    chat.on('message received', handleMessageReception)
+    return () => chat.off('message received')
   }, [handleMessageReception])
 
   const handleMessageEmit = () => {
-    socket.emit('message sent', { message: input, user: user })
+    console.log('handling')
+    chat.emit('message sent', { message: input, user: user })
   }
 
   const handleChange = e => setInput(e.target.value)

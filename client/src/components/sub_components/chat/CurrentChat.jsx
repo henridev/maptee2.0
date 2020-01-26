@@ -28,7 +28,7 @@ const ChatLayout = props => {
   const chatBubbles = props.messagesInfo.map((info, i = 0) => (
     <div
       className={`${classes.bubbleContainer}  ${
-        info.user.id === props.userID ? 'right' : 'left'
+        info.user.id === props.userID ? 'left' : 'right'
       }`}
       key={i}
     >

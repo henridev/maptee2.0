@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import UserHomeNavigator from '../sub_components/UserHomeNavigator'
-import SendRequestButton from '../sub_components/SendRequestButton'
-import ShowRequestsButton from '../sub_components/ShowRequestsButton'
+import SendRequestButton from '../sub_components/requests/SendRequestButton'
+import ShowRequestsButton from '../sub_components/requests/ShowRequestsButton'
 
 import FriendsList from '../sub_components/FriendsList'
 import { store } from '../../redux/_store'

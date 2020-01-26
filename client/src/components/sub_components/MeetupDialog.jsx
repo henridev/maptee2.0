@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Avatar from '@material-ui/core/Avatar'
+
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
@@ -13,6 +11,8 @@ import PersonIcon from '@material-ui/icons/Person'
 import AddIcon from '@material-ui/icons/Add'
 import { store } from '../../redux/_store'
 import { blue } from '@material-ui/core/colors'
+import api from '../../apis/meetup_api'
+
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: blue[100],
@@ -23,12 +23,26 @@ const useStyles = makeStyles({
 function SimpleDialog(props) {
   const classes = useStyles()
   const [meetups, setMeetups] = useState(store.getState().meetups)
-  const { open } = props
+  const { open, friendID, handleClose } = props
 
-  const handleClick = meetupID => {}
+  const handleInvite = meetupID => {
+    api
+      .sendMeetupInvite(meetupID, friendID)
+      .then(res => {
+        console.log(res)
+        handleClose()
+      })
+      .catch(err => {
+        console.log(err, 'error')
+      })
+  }
 
   return (
-    <Dialog aria-labelledby="simple-dialog-title" open={open}>
+    <Dialog
+      aria-labelledby="simple-dialog-title"
+      open={open}
+      onClose={handleClose}
+    >
       <DialogTitle id="simple-dialog-title">your meetups</DialogTitle>
       <List>
         {meetups.map(meetup => {
@@ -37,7 +51,7 @@ function SimpleDialog(props) {
               <ListItemText>{meetup.name}</ListItemText>
               <AddIcon
                 onClick={() => {
-                  handleClick(meetup._id)
+                  handleInvite(meetup._id, friendID)
                 }}
               />
             </ListItem>
@@ -48,10 +62,20 @@ function SimpleDialog(props) {
   )
 }
 
-export default function SimpleDialogDemo({ open }) {
+export default function SimpleDialogDemo({
+  open,
+  friendID,
+  SetInviteInfo,
+  handleClose,
+}) {
   return (
     <div>
-      <SimpleDialog open={open} />
+      <SimpleDialog
+        open={open}
+        friendID={friendID}
+        handleClose={handleClose}
+        setInviteInfo={SetInviteInfo}
+      />
     </div>
   )
 }

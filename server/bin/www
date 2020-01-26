@@ -2,10 +2,11 @@
 let app = require('../app')
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
-const chat = io.of('/chat')
-const { handleConnection } = require('./chat_socket')
+const { handleChatConnection } = require('./chat_socket')
 
-chat.on('connection', socket => handleConnection(socket, io))
+const chat = io
+  .of('/chat')
+  .on('connection', socket => handleChatConnection(socket, chat))
 
 server.on('error', error => {
   if (error.syscall !== 'listen') {
