@@ -35,7 +35,7 @@ const StyledBadge = withStyles(theme => ({
 export default function AvatarList(props) {
   const renderAvatars = () => {
     return props.chats.map(({ _users, _id }) => {
-      console.log('---', _id, props.currentChatID)
+      // console.log('---', _id, props.currentChatID)
       return (
         <StyledBadge
           overlap="circle"
@@ -46,9 +46,7 @@ export default function AvatarList(props) {
           variant="dot"
           onClick={() => {
             if (_id !== props.currentChatID) {
-              props.leaveRoom(props.currentChatID)
-              props.setCurrentChatID(_id)
-              props.joinRoom(_id)
+              props.changeChat(_id)
             }
           }}
         >

@@ -51,5 +51,19 @@ const getChats = async userId => {
   return sortedChats
 }
 
-module.exports.createChat = createChat
-module.exports.getChats = getChats
+const addMessage = async (msg, userId, chatId) => {
+  const newmessage = await Message.create({ content: msg, user: userId })
+  const MessageId = newmessage._id
+  const updatedChat = await Chat.findByIdAndUpdate(
+    chatId,
+    { $addToSet: { _messages: MessageId } },
+    { new: true }
+  )
+  return updatedChat
+}
+
+module.exports = {
+  createChat,
+  getChats,
+  addMessage,
+}

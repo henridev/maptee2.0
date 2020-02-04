@@ -24,12 +24,12 @@
 }
 
 .current_chat {
-  display: grid;
-  grid-template-rows: 9fr 0.5fr;
-  grid-template-areas:
-    'box box'
-    'input btn';
-  grid-template-columns: 1fr auto;
+  display: flex;
+  flex-direction: column;
+  /* grid-template-areas:
+        'box box'
+        'input btn'; */
+  /* grid-template-columns: 1fr auto;*/
 }
 
 .avatar_list {
@@ -67,6 +67,7 @@
 }
 
 .avatar_list {
+  overflow: overlay;
   padding-top: 10px;
   padding-left: 5px;
   padding-right: 5px;
@@ -111,8 +112,25 @@
   justify-content: flex-start !important;
 }
 
+.left > div {
+  background-color: $ya_yellow;
+}
+.right > div {
+  background-color: $pinky;
+  color: white;
+}
+
 .chat_bubble_container {
-  grid-area: box;
+  flex-grow: 1;
+  overflow: overlay;
+}
+
+.input_container {
+  display: flex;
+}
+
+.input_container input {
+  flex-grow: 1;
 }
 
 @media (min-width: 600px) {

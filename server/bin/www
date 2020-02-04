@@ -2,11 +2,12 @@
 let app = require('../app')
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
-const { handleChatConnection } = require('./chat_socket')
+const handleChatConnection = require('./chat_socket')
+const chat = io.of('/chat')
 
-const chat = io
-  .of('/chat')
-  .on('connection', socket => handleChatConnection(socket, chat))
+chat.on('connection', (socket, io) => handleChatConnection(socket, chat))
+// chat.on('join', chatId => handleJoin(chat, chatId))
+// chat.on('leave', chatId => handleLeave(chat, chatId))
 
 server.on('error', error => {
   if (error.syscall !== 'listen') {

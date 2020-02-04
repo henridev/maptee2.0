@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
 const useStyles = makeStyles(theme => ({
   container: {
     bottom: 0,
+    overflow: 'overlay',
     // position: "fixed" // remove this so we can apply flex design
   },
   bubbleContainer: {
@@ -16,24 +17,28 @@ const useStyles = makeStyles(theme => ({
     margin: '5px',
     display: 'inline-block',
     padding: '5px',
-    backgroundColor: 'antiquewhite',
     borderRadius: '10px',
     fontWeight: 500,
   },
 }))
 
-const ChatLayout = props => {
+const CurrentChat = props => {
   const classes = useStyles()
-  console.log('msg info', props.messagesInfo, props.userID)
+  const messagesEnd = useRef(null)
+
+  useEffect(() => {
+    messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+  // console.log('msg info', props.messagesInfo, props.userID)
   const chatBubbles = props.messagesInfo.map((info, i = 0) => (
     <div
       className={`${classes.bubbleContainer}  ${
-        info.user.id === props.userID ? 'left' : 'right'
+        info.user === props.userID ? 'left' : 'right'
       }`}
       key={i}
     >
       <div key={i++} className={classes.bubble}>
-        <div className={classes.button}>{info.message}</div>
+        <div className={classes.button}>{info.content}</div>
       </div>
     </div>
   ))
@@ -41,17 +46,20 @@ const ChatLayout = props => {
     <div className={`${classes.container} current_chat`}>
       <div className="chat_bubble_container">
         {props.messagesInfo.length > 0 && chatBubbles}
+        <div ref={messagesEnd} />
       </div>
-      <input
-        className="message_input"
-        onChange={props.handleChange}
-        placeholder="insert message here"
-      />
-      <button className="message_send_btn" onClick={props.handleMessageEmit}>
-        sent message
-      </button>
+      <div className="input_container">
+        <input
+          className="message_input"
+          onChange={props.handleChange}
+          placeholder="insert message here"
+        />
+        <button className="message_send_btn" onClick={props.handleMessageEmit}>
+          sent message
+        </button>
+      </div>
     </div>
   )
 }
 
-export default ChatLayout
+export default CurrentChat
