@@ -2,7 +2,7 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 const friends_crud = require('../CRUD/CRUD_friends')
-const { createChat, getChats } = require('../CRUD/CRUD_chat')
+const { createChat, getChats, getFriendChat } = require('../CRUD/CRUD_chat')
 const uploader = require('../configs/cloudinary')
 
 // signup up localy
@@ -72,6 +72,17 @@ router.get('/chats', (req, res) => {
     .then(sortedChats => {
       res.status(200)
       res.json(sortedChats)
+    })
+    .catch(err => console.error(err))
+})
+
+router.get('/chat/:friendID/:userID', (req, res) => {
+  const friendID = req.params.friendID
+  const userID = req.params.userID
+  getFriendChat(friendID, userID)
+    .then(friendChat => {
+      res.status(200)
+      res.json(friendChat)
     })
     .catch(err => console.error(err))
 })

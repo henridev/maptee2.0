@@ -62,8 +62,27 @@ const addMessage = async (msg, userId, chatId) => {
   return updatedChat
 }
 
+const getFriendChat = async (userId, friendID) => {
+  try {
+    const friendChat = await Chat.find({
+      _users: { $elemMatch: { userId, friendID } },
+    }).populate(
+      { path: '_messages' },
+      {
+        path: '_users',
+        match: { _id: { $ne: userId } }, // only return user that are not you
+        select: '_id avatar_url username firstName lastName',
+      }
+    )
+    return friendChat
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 module.exports = {
   createChat,
   getChats,
   addMessage,
+  getFriendChat,
 }

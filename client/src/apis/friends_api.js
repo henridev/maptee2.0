@@ -48,4 +48,10 @@ export default {
       .then(res => res.data)
       .catch(err => console.error(err))
   },
+  getFriendChat(friendID, userId) {
+    return service
+      .get(`/chat/${friendID}/${userId}`)
+      .then(res => res.data)
+      .catch(err => console.error(err))
+  },
 }

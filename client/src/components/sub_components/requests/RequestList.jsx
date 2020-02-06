@@ -28,7 +28,7 @@ export default function RequestList(props) {
     )
   }
 
-  if (!requests) {
+  if (requests.length < 1) {
     return <div>currently no requests</div>
   }
   return (

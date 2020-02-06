@@ -3,7 +3,7 @@ import UserHomeNavigator from '../sub_components/UserHomeNavigator'
 import SendRequestButton from '../sub_components/requests/SendRequestButton'
 import ShowRequestsButton from '../sub_components/requests/ShowRequestsButton'
 
-import FriendsList from '../sub_components/FriendsList'
+import FriendsList from '../sub_components/friendspage/FriendsList'
 import { store } from '../../redux/_store'
 import api from '../../apis/friends_api'
 
