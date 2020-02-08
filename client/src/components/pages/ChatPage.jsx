@@ -5,6 +5,7 @@ import CurrentChat from '../sub_components/chat/CurrentChat'
 import io from 'socket.io-client'
 import { store } from '../../redux/_store'
 import api from '../../apis/friends_api'
+import ChatSocket from '../../functions/SocketClient'
 
 let chat
 
@@ -19,20 +20,23 @@ export default function ChatPage(props) {
   const [currentChat, setCurrentChat] = useState(null)
   const [messages, setMessages] = useState([])
 
-  function scrollToBottom() {
+  const scrollToBottom = () => {
     const chatbubble = document.querySelector('.chat_bubble_container')
     chatbubble.scrollTop = chatbubble.scrollHeight
+  }
+
+  const handleMsgReception = ({ sender, msg, chatId }) => {
+    console.log('received message from', sender)
+    setMessages([...messages, { content: msg, user: sender.id }])
+    scrollToBottom()
   }
 
   useEffect(() => {
     scrollToBottom()
     // open chat connection
-    chat = io.connect(
-      process.env.NODE_ENV === 'production'
-        ? `/chat`
-        : `http://${window.location.hostname}:5000/chat`
-    )
-
+    chat = new ChatSocket('chat', user)
+    console.log(chat)
+    chat.attachMsgListener('msg', handleMsgReception)
     // get the users chats
     // set them as states
     api
@@ -42,27 +46,25 @@ export default function ChatPage(props) {
         setCurrentChat(sortedFoundChats[0])
         setMessages(sortedFoundChats[0]._messages)
         const chatId = sortedFoundChats[0]._id
-        chat.emit('join', { chatId: chatId })
+        chat.connectViaChatId(chatId)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
       })
 
     return () => {
-      chat.emit('disconnect')
-      chat.off()
+      chat.disconnect()
     }
   }, [])
 
   useEffect(() => {
-    chat.on('msg', ({ sender, msg, chatId }) => {
-      console.log('received a message', msg)
-      setMessages([...messages, { content: msg, user: sender.id }])
-      scrollToBottom()
-    })
+    try {
+      chat.attachMsgListener('msg', handleMsgReception)
+    } catch (err) {
+      console.error(err)
+    }
     return () => {
-      chat.emit('disconnect')
-      chat.off()
+      chat.disconnect()
     }
   }, [messages])
 
@@ -71,12 +73,7 @@ export default function ChatPage(props) {
   // really quickly
 
   const changeChat = newChatId => {
-    console.log('changeing to chat', newChatId)
-    chat.emit('change', {
-      oldChatId: currentChat._id,
-      newChatId: newChatId,
-      user: user,
-    })
+    chat.changeChat(newChatId)
     const filteredChat = chats.find(chat => chat._id === newChatId)
     setMessages(filteredChat._messages)
     setCurrentChat(filteredChat)
@@ -86,7 +83,7 @@ export default function ChatPage(props) {
     e.preventDefault()
     console.log('handling emit message')
     setInput('')
-    chat.emit('new', { msg: input, from: user, chatId: currentChat._id })
+    chat.emitMessage(input, user)
   }
 
   const handleChange = e => setInput(e.target.value)
